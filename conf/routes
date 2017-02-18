@@ -5,6 +5,8 @@
 # Database Testing
 GET		/members					controllers.TestingController.getMembers()
 
+GET 	/profile					controllers.TestingController.showProfile()
+
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
 # An example controller showing how to use dependency injection

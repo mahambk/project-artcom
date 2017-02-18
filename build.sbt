@@ -10,7 +10,6 @@ libraryDependencies ++= Seq(
   javaJdbc,
   cache,
   javaWs,
-  "org.postgresql" % "postgresql" % "9.4-1212-jdbc42",
   "org.avaje" % "ebean" % "2.8.1",
   "javax.persistence" % "persistence-api" % "1.0.2"
 )

@@ -17,4 +17,10 @@ public class TestingController extends Controller {
         return ok(Json.toJson(members));
     }
 
+    public Result showProfile() {
+    	Member snowwhite = Member.find.byId("snowwhite");
+    	//return ok(Json.toJson(snowwhite));
+        return ok(userprofile.render(snowwhite));
+    }
+
 }

@@ -1,0 +1,25 @@
+@(title: String)(content: Html)
+
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@title</title>
+    <link rel="stylesheet" href="@routes.Assets.versioned("foundation/css/foundation.css")">
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/main.css")">
+  </head>
+  <body>
+    @content
+    <footer class="footer">
+      <div class="row">
+        <p>&copy Scrapbook 2016</p>
+      </div>
+    </footer>
+    <script src="@routes.Assets.versioned("foundation/js/vendor/jquery.js")"></script>
+    <script src="@routes.Assets.versioned("foundation/js/vendor/what-input.js")"></script>
+    <script src="@routes.Assets.versioned("foundation/js/vendor/foundation.js")"></script>
+    <script src="@routes.Assets.versioned("foundation/js/app.js")"></script>
+  </body>
+</html>
