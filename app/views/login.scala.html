@@ -1,0 +1,23 @@
+@(message: String)
+@templates.main("Login to Scrapbook") {
+
+@helper.form(routes.Application.submitLogin()) {
+	<div class="row top-space">
+		<div class="small-8 small-centered large-5 large-centered columns">
+			<h4>Login to Scrapbook</h4>
+			<input type="text" name="username" placeholder="Username">
+			<input type="password" name="password" placeholder="Password">
+			
+			<div class="column row">
+				<p>@message</p>
+			</div>
+			<div class="row">
+				<div class="small-4 small-offset-8 columns">
+					<button type="submit" value="Submit" class="button">Login</button>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+}

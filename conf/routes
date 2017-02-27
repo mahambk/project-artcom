@@ -4,8 +4,20 @@
 
 # Database Testing
 GET		/members					controllers.TestingController.getMembers()
+GET 	/profiletest				controllers.TestingController.showProfile()
 
-GET 	/profile					controllers.TestingController.showProfile()
+GET 	/signup						controllers.Application.signup()
+POST	/signup						controllers.Application.submitSignup()
+GET 	/login						controllers.Application.login()
+POST	/login						controllers.Application.submitLogin()
+GET 	/logout						controllers.Application.logout()
+
+GET 	/browse						controllers.Browse.index()
+GET 	/discover					controllers.Browse.discover()
+GET 	/community					controllers.Community.index()
+
+GET 	/profile/:username			controllers.Profile.index(username: String)
+GET 	/profile					controllers.Profile.myProfile()
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index

@@ -1,0 +1,98 @@
+@(signupForm: Form[views.forms.MemberSignupForm], message: String)
+@templates.main("Join Scrapbook") {
+
+@helper.form(routes.Application.submitSignup()) {
+	<div class="row top-space">
+		<div class="small-8 small-centered large-5 large-centered columns">
+			<h4>Join Scrapbook</h4>
+			<div class="row">
+				<div class="small-6 columns">
+					<input type="text" @if(signupForm("firstname").hasErrors) {class="is-invalid-input" aria-describedby="fnameHelpText"} name="firstname" value="@signupForm("firstname").value" placeholder="First name">
+					@if(signupForm("firstname").hasErrors) {
+					<p class="help-text" id="fnameHelpText"><span class="error-text">@{signupForm("firstname").error.map {error => error.message}}</span></p>
+					}
+				</div>
+				<div class="small-6 columns">
+					<input type="text" @if(signupForm("lastname").hasErrors) {class="is-invalid-input" aria-describedby="lnameHelpText"} name="lastname" value="@signupForm("lastname").value" placeholder="Last name">
+					@if(signupForm("lastname").hasErrors) {
+					<p class="help-text" id="lnameHelpText"><span class="error-text">@{signupForm("lastname").error.map {error => error.message}}</span></p>
+					}
+				</div>
+			</div>
+
+			<input type="email" @if(signupForm("email").hasErrors) {class="is-invalid-input" aria-describedby="emailHelpText"} name="email" value="@signupForm("email").value" placeholder="Email">
+			@if(signupForm("email").hasErrors) {
+			<p class="help-text" id="emailHelpText"><span class="error-text">@{signupForm("email").error.map {error => error.message}}</span></p>
+			}
+			
+			<input type="text" @if(signupForm("username").hasErrors) {class="is-invalid-input" aria-describedby="usernameHelpText"} name="username" value="@signupForm("username").value" placeholder="Username">
+			@if(signupForm("username").hasErrors) {
+			<p class="help-text" id="usernameHelpText"><span class="error-text">@{signupForm("username").error.map {error => error.message}}</span></p>
+			}
+
+			<input type="password" @if(signupForm("password").hasErrors) {class="is-invalid-input"} name="password" value="@signupForm("password").value" placeholder="Password" aria-describedby="passwordHelpText">
+			@if(signupForm("password").hasErrors) {
+			<p class="help-text" id="passwordHelpText"><span class="error-text">@{signupForm("password").error.map {error => error.message}}</span></p>
+			} else {
+			<p class="help-text" id="passwordHelpText">Your password must be at least 8 characters long.</p>
+			}
+
+			<input type="password" @if(signupForm("passwordRepeat").hasErrors) {class="is-invalid-input" aria-describedby="pswdRepeatHelpText"} name="passwordRepeat" placeholder="Repeat Password">
+			@if(signupForm("passwordRepeat").hasErrors) {
+			<p class="help-text" id="pswdRepeatHelpText"><span class="error-text">@{signupForm("passwordRepeat").error.map {error => error.message}}</span></p>
+			}
+
+
+			<label>Date of birth</label>
+			<div class="row" aria-describedby="dateHelpText">
+				<div class="small-3 columns">
+					<input type="text" @if(signupForm("birthday").hasErrors) {class="is-invalid-input"} value="@signupForm("birthday").value" name="birthday" min="1" max="31" placeholder="Day">
+				</div>
+				<div class="small-5 columns">
+					<select name="birthmonth">
+						<option value="1">January</option>
+						<option value="2">February</option>
+						<option value="3">March</option>
+						<option value="4">April</option>
+						<option value="5">May</option>
+						<option value="6">June</option>
+						<option value="7">July</option>
+						<option value="8">August</option>
+						<option value="9">September</option>
+						<option value="10">October</option>
+						<option value="11">November</option>
+						<option value="12">December</option>
+					</select>
+				</div>
+				<div class="small-4 columns">
+					<input type="text" @if(signupForm("birthyear").hasErrors) {class="is-invalid-input"} name="birthyear" value="@signupForm("birthyear").value" min="1900" max="2099" placeholder="Year">
+				</div>
+			</div>
+			<!--<p class="help-text" id="dateHelpText"><span class="error-text">
+			@if((signupForm("birthday").hasErrors && signupForm("birthday").hasErrors)
+			|| signupForm("birthday").hasErrors) {
+			@signupForm("birthday").error.map {error => error.message}
+			} else {
+			@if(signupForm("birthyear").hasErrors) {
+			@signupForm("birthyear").error.map {error => error.message}}
+			}
+			</span></p>-->
+			<label>Skill Level
+				<select name="level">
+					<option value="amateur">Amateur</option>
+					<option value="pro">Pro</option>
+				</select>
+			</label>
+			<div class="column row">
+				<p>@message</p>
+			</div>
+			<div class="row">
+				<div class="small-5 small-offset-7 columns">
+					<button type="submit" value="Submit" class="button">Create account</button>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+}

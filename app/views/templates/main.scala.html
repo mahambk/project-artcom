@@ -1,25 +1,59 @@
 @(title: String)(content: Html)
+@import controllers.Application
 
 <!doctype html>
 <html class="no-js" lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@title</title>
-    <link rel="stylesheet" href="@routes.Assets.versioned("foundation/css/foundation.css")">
-    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/main.css")">
-  </head>
-  <body>
-    @content
-    <footer class="footer">
-      <div class="row">
-        <p>&copy Scrapbook 2016</p>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@title</title>
+  <link rel="stylesheet" href="@routes.Assets.versioned("foundation/css/foundation.css")">
+  <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/main.css")">
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <ul class="dropdown menu" data-dropdown-menu>
+        <li class="menu-text"><a href="/">Scrapbook</a></li>
+        <li>
+          <a href="@routes.Browse.index">Browse</a>
+          <ul class="menu vertical">
+            <li><a href="#">Sketches</a></li>
+            <li><a href="#">Photography</a></li>
+            <li><a href="#">Paintings</a></li>
+            <li><a href="#">Illustrations</a></li>
+            <li><a href="#">Collage</a></li>
+            <li><a href="#">Crafts</a></li>
+          </ul>
+        </li>
+        <li><a href="@routes.Browse.discover">Discover</a></li>
+        <li><a href="@routes.Community.index">Community</a></li>
       </div>
-    </footer>
-    <script src="@routes.Assets.versioned("foundation/js/vendor/jquery.js")"></script>
-    <script src="@routes.Assets.versioned("foundation/js/vendor/what-input.js")"></script>
-    <script src="@routes.Assets.versioned("foundation/js/vendor/foundation.js")"></script>
-    <script src="@routes.Assets.versioned("foundation/js/app.js")"></script>
-  </body>
-</html>
+      <div class="top-bar-right">
+        @if(!Application.isLoggedIn()) {
+        <ul class="menu">
+          <li><a href="@routes.Application.signup">Join</a></li>
+          <li><button type="button" class="button"><a href="@routes.Application.login">Login</a></button>
+        </ul>
+        } else {
+        <ul class="menu">
+          <li>Welcome, @session().get("loggedIn") &nbsp;</li>
+          <li><a href="/profile/@session().get("loggedIn")">My Profile</a>
+          <li><button type="button" class="button"><a href="@routes.Application.logout">Logout</a></button>
+        </ul>
+        }
+      </div>
+    </div>
+      @content
+      <!--<footer class="footer">
+        <div class="row">
+          <p>&copy Scrapbook 2016</p>
+        </div>
+      </footer>-->
+      <script src="@routes.Assets.versioned("foundation/js/vendor/jquery.js")"></script>
+      <script src="@routes.Assets.versioned("foundation/js/vendor/what-input.js")"></script>
+      <script src="@routes.Assets.versioned("foundation/js/vendor/foundation.js")"></script>
+      <script src="@routes.Assets.versioned("foundation/js/app.js")"></script>
+    </body>
+    </html>

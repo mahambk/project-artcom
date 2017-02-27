@@ -24,10 +24,32 @@
 
 }
 
+.error-text {
+	color: #c9150c;
+	font-weight: bold;
+	font-style: regular;
+}
+
 .profile > .name, .profile > .username, .profile > .button {
 	text-align: center;
 	vertical-align: middle;
 
+}
+
+.profile-image {
+	height: 100px;
+	width: 100px;
+}
+
+.profile > p {
+	font-size: 0.8rem;
+}
+
+.label.level {
+    background: #e5e5e5;
+    color: #0a0a0a;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 .footer > .row {
