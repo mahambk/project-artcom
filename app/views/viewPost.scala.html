@@ -1,0 +1,63 @@
+@(post: Post)
+@templates.main("View Post"){
+	<div class="row top-space">
+		<div class="small-12 large-10 columns">
+            
+            <!--Post heading: author, date and type-->
+			<div class="row top-space">
+				<div class="small-2 small-offset-2 columns">
+					<img src="@{routes.Assets.versioned("images/profile-pics/sample.jpg")}" class="thumbnail post-user-pic" alt="">
+				</div>
+				<div class="small-5 columns">
+					<h5>@post.author.username</h5>
+					<p>Posted @post.datePosted</p>
+					<span class="label level">@post.postType</span>
+				</div>
+                <div class="small-3 columns"></div>
+			</div>
+            
+            <!--Post body: image, description and tags-->
+            <div class="row top-space">
+                <div class="small-7 small-offset-2 columns">
+                    <h5>"@post.title"</h5>
+                    <h6>@post.subtitle</h6>
+                    <img src="@{routes.Assets.versioned("images/post-images/" + post.imageFile)}" class="post-image thumbnail" alt="">
+                    <p class="desc">@post.description</p>
+                    <p>Tagged: @post.tags</p>
+                </div>
+                <div class="small-3 columns"></div>
+            </div>
+            
+            <!--Comments-->
+            <div class="row top-space">
+                <div class="small-7 small-offset-2 columns">
+                    <h5>Comments</h5>
+                    
+                    <!-- New comment form -->
+                    <div class="row">
+                        <div class="small-10 columns">
+                            <input type="text" name="comment" rows="2" placeholder="Share a thought">
+                        </div>
+                        <div class="small-2 columns">
+                            <button type="submit" value="Submit" class="button">Send</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Comment box -->
+                    <div class="row comment-box">
+                            <div class="small-2 columns">
+                                <img src="@{routes.Assets.versioned("images/profile-pics/sample.jpg")}" class="thumbnail" alt="">
+                            </div>
+                            <div class="small-10 columns comment-body">
+                                <h6>jellycoret</h6>
+                                <p>Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent </p>
+                            </div>
+                    </div>
+                    
+                </div>
+                <div class="small-3 columns"></div>
+            </div>
+            
+		</div>
+	</div>
+}

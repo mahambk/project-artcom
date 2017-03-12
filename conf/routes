@@ -6,6 +6,7 @@
 GET		/members					controllers.TestingController.getMembers()
 GET 	/profiletest				controllers.TestingController.showProfile()
 
+# Application
 GET 	/signup						controllers.Application.signup()
 POST	/signup						controllers.Application.submitSignup()
 GET 	/login						controllers.Application.login()
@@ -18,6 +19,11 @@ GET 	/community					controllers.Community.index()
 
 GET 	/profile/:username			controllers.Profile.index(username: String)
 GET 	/profile					controllers.Profile.myProfile()
+
+# Posts
+GET 	/post/new					controllers.Posts.newPost()
+POST 	/post/upload				controllers.Posts.uploadPost()
+GET 	/post/:postId				controllers.Posts.viewPost(postId: Integer)
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index

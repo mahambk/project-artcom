@@ -1,0 +1,71 @@
+@import views.html.templates.artCategMenu
+@(message: String)
+@templates.main("New post") {
+@helper.form(routes.Posts.uploadPost(), 'enctype -> "multipart/form-data") {
+
+	<div class="row top-space new-post-form">
+		<div class="small-12 small-centered large-9 large-centered columns">
+			<h4>New post</h4>
+			<input type="text" name="title" placeholder="Post Title">
+			<input type="text" name="subtitle" placeholder="Post Subtitle">
+
+			<div class="row">
+				<div class="small-3 small-centered columns">
+					<!--<label for="imageUpload" class="button expanded">Upload Image</label>
+					<input type="file" name="imageFile" id="imageUpload" class="show-for-sr">-->
+					<input type="file" name="image">
+				</div>
+			</div>
+
+            <textarea name="description" rows="6" placeholder="Description"></textarea>
+            <!--<input type="text" name="description" placeholder="Description">-->
+			<input type="text" name="tags" placeholder="Tags">
+
+			<div class="row columns top-space">
+				<fieldset id="postTypeRadio">
+					<legend>Special Post Type</legend>
+					<input type="radio" class="radioType" name="postType" value="demo" id="radioTypeDemo"><label for="radioTypeDemo">Artwork demo</label>
+					<input type="radio" class="radioType" name="postType" value="progress" id="radioTypeProgress"><label for="radioTypeProgress">Work under progress</label>
+					<input type="radio" class="radioType" name="postType" value="sketch" id="radioTypeSketch"><label for="radioTypeSketch">Sketch</label>
+					<input type="radio" class="radioType" name="postType" value="none" id="radioTypeNone" checked><label for="radioTypeNone">No special type</label>
+				</fieldset>
+			</div>
+
+			<div class="row columns top-space">
+				<legend>Category</legend>
+				<select name="category">
+					<option value="drawing">Drawing</option>
+					<option value="sketching">Sketching</option>
+					<option value="painting">Painting</option>
+					<option value="calligraphy">Calligraphy</option>
+					<option value="graphicDesign">Graphic design</option>
+					<option value="crafts">Crafts</option>
+				</select>
+			</div>
+
+			<div class="row columns" id="divTypeDemo">
+			</div>
+
+			<div class="row columns" id="divTypeProgress">
+			</div>
+
+			<div class="row columns" id="divTypeSketch">
+			</div>
+
+			<div class="row columns top-space">
+				<fieldset>
+					<input name="fdbkEnabled" id="fdbkCheck" type="checkbox"><label for="fdbkCheck">Enable feedback</label>
+				</fieldset>
+			</div>
+            
+			<p>@message</p>
+
+			<div class="row">
+				<div class="small-3 small-offset-9 columns">
+					<button type="submit" value="Submit" class="button expanded">Create post</button>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+}
