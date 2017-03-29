@@ -8,6 +8,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@title</title>
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
   <link rel="stylesheet" href="@routes.Assets.versioned("foundation/css/foundation.css")">
   <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/main.css")">
 </head>
@@ -15,7 +16,7 @@
   <div class="top-bar">
     <div class="top-bar-left">
       <ul class="dropdown menu" data-dropdown-menu>
-        <li class="menu-text"><a href="/">Scrapbook</a></li>
+        <li class="menu-text"><a href="/"><img src="@{routes.Assets.versioned("images/website/logo.png")}" id="logo" alt="Scrapbook"></a></li>
         <li>
           <a href="@routes.Browse.index">Browse</a>
           <ul class="menu vertical">

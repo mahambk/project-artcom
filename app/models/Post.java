@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Post extends Model {
 
 	@Id
-	public int postId;
+	public int id;
 
 	public String postType;
 	public String title;
@@ -28,7 +28,7 @@ public class Post extends Model {
 
 	public Date dateLastEdited;
 	public boolean feedbackEnabled;
-
+	
 	
 	public static Find<Integer,Post> find = new Find<Integer,Post>(){};
 
@@ -51,9 +51,17 @@ public class Post extends Model {
 		return find.byId(id);
 	}
 
+	public static List<Post> findByCategory(String category) {
+		return find.where().ieq("category", category).findList();
+	}
+
+	public static List<Post> findAll() {
+		return find.where().findList();
+	}
+
 	public String toString() {
 		return String.format("[Post ID: '%d', Title: '%s', Subtitle: '%s', Description: '%s', Tags: '%s',"
-			+ "Post type: '%s', Category: '%s', Feedback enabled: '%s']", this.postId, this.title, this.subtitle,
+			+ "Post type: '%s', Category: '%s', Feedback enabled: '%s']", this.id, this.title, this.subtitle,
 			this.description, this.tags, this.postType, this.category, this.feedbackEnabled);
 	}
 

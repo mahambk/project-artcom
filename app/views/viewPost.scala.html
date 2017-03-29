@@ -21,38 +21,103 @@
                 <div class="small-7 small-offset-2 columns">
                     <h5>"@post.title"</h5>
                     <h6>@post.subtitle</h6>
-                    <img src="@{routes.Assets.versioned("images/post-images/" + post.imageFile)}" class="post-image thumbnail" alt="">
-                    <p class="desc">@post.description</p>
+                    <img src="@{routes.Assets.versioned(post.imageFile)}" class="post-image thumbnail" alt="">
+                    <p class="post-desc">@post.description</p>
                     <p>Tagged: @post.tags</p>
                 </div>
                 <div class="small-3 columns"></div>
             </div>
             
-            <!--Comments-->
-            <div class="row top-space">
-                <div class="small-7 small-offset-2 columns">
-                    <h5>Comments</h5>
-                    
-                    <!-- New comment form -->
+            <!--Feedback-->
+            @if(post.feedbackEnabled == true){
+            <div class="row top-space feedback-panel">
+                <div class="small-9 small-offset-2 columns">
+                    <h5>Feedback Panel</h5>
+
+                    <!--Sample Feedback box-->
+                    <div class="row comment-box">
+                        <div class="small-2 columns">
+                            <img src="@{routes.Assets.versioned("images/profile-pics/sample.jpg")}" class="thumbnail" alt="">
+                        </div>
+                        <div class="small-10 columns comment-body">
+                            <h6>jellycoret</h6>
+                            <p>Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus, cum eros quis aliquam wisi. Nulla wisi laoreet suspendisse integer vivamus elit eu mauris hendrerit facilisi, mi  ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent.</p>
+                        </div>
+                    </div>
+
+                    <!--Dynamic Feedback boxes-->
+                    @for(f <- Feedback.findAll()){
+                    <div class="row comment-box" id=@f.id>
+                        <div class="small-2 columns">
+                            <img src="@{routes.Assets.versioned("images/profile-pics/sample.jpg")}" class="thumbnail" alt="">
+                        </div>
+                        <div class="small-10 columns comment-body">
+                            <h6>@f.author.username</h6>
+                            <p>@f.fdbkBody</p>
+                        </div>
+                    </div>
+                    }
+
+                    <!--New feedback form-->
+                    @helper.form(routes.Posts.sendFeedback(post.id), 'enctype -> "multipart/form-data") {
+                    <div class="row">
+                        <textarea name="fdbkBody" rows="4" placeholder="Share your feedback"></textarea>
+                    </div>
                     <div class="row">
                         <div class="small-10 columns">
-                            <input type="text" name="comment" rows="2" placeholder="Share a thought">
+                            <input type="file" name="image">
                         </div>
                         <div class="small-2 columns">
                             <button type="submit" value="Submit" class="button">Send</button>
                         </div>
                     </div>
+                    }
+
+                </div>
+                <div class="small-1 columns"></div>
+            </div>
+            }
+
+            <!--Comments-->
+            <div class="row top-space">
+                <div class="small-7 small-offset-2 columns">
+                    <h5>Comments</h5>
                     
-                    <!-- Comment box -->
-                    <div class="row comment-box">
-                            <div class="small-2 columns">
-                                <img src="@{routes.Assets.versioned("images/profile-pics/sample.jpg")}" class="thumbnail" alt="">
-                            </div>
-                            <div class="small-10 columns comment-body">
-                                <h6>jellycoret</h6>
-                                <p>Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent </p>
-                            </div>
+                    <!--New comment form-->
+                    @helper.form(routes.Posts.sendComment(post.id)) {
+                    <div class="row">
+                        <div class="small-10 columns">
+                            <input type="text" name="cmntBody" placeholder="Share a thought">
+                        </div>
+                        <div class="small-2 columns">
+                            <button type="submit" value="Submit" class="button">Send</button>
+                        </div>
                     </div>
+                    }
+
+                    <!--Comment box-->
+                    <div class="row comment-box">
+                        <div class="small-2 columns">
+                            <img src="@{routes.Assets.versioned("images/profile-pics/sample.jpg")}" class="thumbnail" alt="">
+                        </div>
+                        <div class="small-10 columns comment-body">
+                            <h6>jellycoret</h6>
+                            <p>Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent </p>
+                        </div>
+                    </div>
+
+                    <!--Comment box-->
+                    @for(c <- Comment.findAll()){
+                    <div class="row comment-box" id=@c.id>
+                        <div class="small-2 columns">
+                            <img src="@{routes.Assets.versioned("images/profile-pics/sample.jpg")}" class="thumbnail" alt="">
+                        </div>
+                        <div class="small-10 columns comment-body">
+                            <h6>@c.author.username</h6>
+                            <p>@c.cmntBody</p>
+                        </div>
+                    </div>
+                    }
                     
                 </div>
                 <div class="small-3 columns"></div>

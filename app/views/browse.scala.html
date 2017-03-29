@@ -1,3 +1,4 @@
+@(category: String)
 @templates.main("Scrapbook - Browse") {
     <div class="row top-space">
       <div class="large-8 columns">
@@ -19,59 +20,33 @@
       </div>
     </div>
     
+    <!-- Post Thumbnails -->
     <div class="row">
       <div class="large-11 large centered columns">
         <div class="row top-space">
         </div>
         <div class="row small-up-2 medium-up-3 large-up-4 top-space">
+
+          <!--Dynamic Thumbnail-->
+          @for(p <- Post.findAll){
           <div class="column">
-            <img src="http://placehold.it/300x300" class="thumbnail" alt="">
+            <div class="post-thumb-image">
+              <a href="@routes.Posts.viewPost(p.id)"><img src="@{routes.Assets.versioned(p.imageFile)}" class="thumbnail" alt=""></a>
+            </div>
+            <div class="post-thumb-info">
+              <p>@p.title</p>
+              <p>by <a href="@routes.Profile.index(p.author.username)">@p.author.username</a></p>
+              <p>
+              @if(!p.tags.isEmpty()) {
+              @for(t <- p.tags.split(",")) {
+              #<a href="@routes.Posts.viewPost(p.id)">@t &nbsp;
+              }
+              }
+              </p>
+            </div>
           </div>
-          <div class="column">
-            <img src="http://placehold.it/300x300" class="thumbnail" alt="">
-          </div> 
-          <div class="column">
-            <img src="http://placehold.it/300x300" class="thumbnail" alt="">
-          </div>
-          <div class="column">
-            <img src="http://placehold.it/300x300" class="thumbnail" alt="">
-          </div>
-          <div class="column">
-            <img src="http://placehold.it/300x300" class="thumbnail" alt="">
-          </div> 
-          <div class="column">
-            <img src="http://placehold.it/300x300" class="thumbnail" alt="">
-          </div>
-          <div class="column">
-            <img src="http://placehold.it/300x300" class="thumbnail" alt="">
-          </div>
-          <div class="column">
-            <img src="http://placehold.it/300x300" class="thumbnail" alt="">
-          </div> 
-          <div class="column">
-            <img src="http://placehold.it/300x300" class="thumbnail" alt="">
-          </div>    
-          <div class="column">
-            <img src="http://placehold.it/300x300" class="thumbnail" alt="">
-          </div>
-          <div class="column">
-            <img src="http://placehold.it/300x300" class="thumbnail" alt="">
-          </div>
-          <div class="column">
-            <img src="http://placehold.it/300x300" class="thumbnail" alt="">
-          </div> 
-          <div class="column">
-            <img src="http://placehold.it/300x300" class="thumbnail" alt="">
-          </div>
-          <div class="column">
-            <img src="http://placehold.it/300x300" class="thumbnail" alt="">
-          </div>
-          <div class="column">
-            <img src="http://placehold.it/300x300" class="thumbnail" alt="">
-          </div> 
-          <div class="column">
-            <img src="http://placehold.it/300x300" class="thumbnail" alt="">
-          </div>          
+          }
+        
         </div>
       </div>
     </div>
