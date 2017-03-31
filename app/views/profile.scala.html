@@ -1,31 +1,62 @@
 @(member: Member)
 @templates.main("Profile") {
   <div class="row top-space">
-    <div class="large-3 columns text-center profile">
+    <div class="small-3 columns text-center profile">
+
+      @if(Application.memberLoggedIn(member)) {
+      <div class="row align-right">
+        <div class="small-3 columns small-offset-9">
+          <button class="primary button edit-btn"><a href="@routes.Profile.editProfile()">✎</a></button>
+        </div>
+      </div>
+      }
+
       <img src="@{routes.Assets.versioned("images/profile-pics/sample.jpg")}" class="thumbnail text-center profile-image" alt="">
       <h5 class="name">@member.firstname @member.lastname</h5>
       <h6 class="username">@member.username</h6>
       <span class="label level">@member.level</span>
       <br>
       <br>
-      <h6>Based in @member.region</h6>
+      <h6>Based in @member.location</h6>
 
       <div class="button-group top-space">
         <button class="button">Follow</button>
         <button class="secondary button">Send Message</button>
       </div>
       
+      @if(Application.memberLoggedIn(member)) {
       <hr>
-      <h5>Fortes:</h5>
+      <h5>Skills</h5>
+      <p>@if(!member.skills.isEmpty()){@member.skills
+      } else {
+      <a href="@routes.Profile.editProfile()">✎ <i>List your skills or interests</i></a>
+      }
+      </p>
+      <hr>
+      <h5>Bio</h5>
+      <p>@if(!member.bio.isEmpty()){@member.bio
+      } else {
+      <a href="@routes.Profile.editProfile()">✎ <i>Add bio</i></a>
+      }
+      </p>
+      } else {
+      @if(!member.skills.isEmpty()){
+      <hr>
+      <h5>Skills</h5>
       <p>@member.skills</p>
+      }
+      @if(!member.bio.isEmpty()){
       <hr>
-      <h5>Bio:</h5>
+      <h5>Bio</h5>
       <p>@member.bio</p>
+      }
+      }
+
     </div>
-    <div class="large-9 columns">
+    <div class="small-9 columns">
       
 
-      <div class="large-11 large-centered columns">
+      <div class="small-11 large-centered columns">
         <h5>Recent Posts:</h5>
         <div class="row small-up-1 medium-up-2 large-up-4 top-space">
           <div class="column">

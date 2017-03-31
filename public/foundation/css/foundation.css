@@ -1056,7 +1056,7 @@ select {
   [data-whatinput='mouse'] .button {
     outline: 0; }
   .button:hover, .button:focus {
-    background-color: #ffd247;
+    background-color: #6A7DA8;
     color: #fefefe; }
   .button.tiny {
     font-size: 0.6rem; }
@@ -1071,10 +1071,10 @@ select {
     margin-right: 0; }
   .button.primary {
     background-color: #8B9FCD;
-    color: #0a0a0a; }
+    color: #FFFFFF; }
     .button.primary:hover, .button.primary:focus {
       background-color: #6B8BC5;
-      color: #0a0a0a; }
+      color: #FFFFFF; }
   .button.secondary {
     background-color: #E6D5A2;
     color: #FFFFFF; }
@@ -1403,7 +1403,7 @@ select {
   [data-whatinput='mouse'] .slider-handle {
     outline: 0; }
   .slider-handle:hover {
-    background-color: #ffd247; }
+    background-color: #6A7DA8; }
   .slider-handle.is-dragging {
     transition: all 0s linear; }
 

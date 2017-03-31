@@ -1,5 +1,5 @@
 #logo {
-	width: 150px;
+	width: 120px;
 }
 
 #motto {
@@ -39,6 +39,11 @@ h1, h2, h3, h4, h5, h6 {
 	position: relative;
 	max-width: 75%;
 
+}
+
+.edit-btn {
+	font-size: 1.8rem;
+	padding: 0.2rem 0.4rem 0.2rem 0.4rem;
 }
 
 .error-text {

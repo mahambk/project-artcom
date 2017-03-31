@@ -31,7 +31,7 @@ public class Posts extends Controller {
 
         if (form.hasErrors()) {
             flash("error", "Please complete above fields.");
-            return badRequest(newPost.render(""));
+            return ok(newPost.render(""));
         } else {
             Post post = form.get();
             MultipartFormData<File> body = request().body().asMultipartFormData();
@@ -53,7 +53,7 @@ public class Posts extends Controller {
                 //return ok(newPost.render(post.toString()));
             } else {
                 flash("error", "Missing file");
-                return badRequest(home.render());
+                return ok(newPost.render(""));
             }
         }
      }
@@ -63,7 +63,7 @@ public class Posts extends Controller {
         Post post = Post.findById(postId);
         if (cmntForm.hasErrors()) {
             flash("error", "Illegal characters.");
-            return badRequest(viewPost.render(post));
+            return ok(viewPost.render(post));
         } else {
             flash("success", "Form parsed with no errors.");
             Comment cmnt = cmntForm.get();
@@ -81,7 +81,7 @@ public class Posts extends Controller {
         Post post = Post.findById(postId);
         if (fdbkForm.hasErrors() || post.feedbackEnabled == false) {
             flash("error", "Illegal characters.");
-            return badRequest(viewPost.render(post));
+            return ok(viewPost.render(post));
         } else {
             flash("success", "Form parsed with no errors.");
             Feedback fdbk = fdbkForm.get();

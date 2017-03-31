@@ -6,6 +6,7 @@ import java.util.*;
 import javax.persistence.*;
 //import java.sql.Date;
 import views.forms.MemberSignupForm;
+import views.forms.EditProfileForm;
 
 @Entity
 public class Member extends Model {
@@ -22,7 +23,7 @@ public class Member extends Model {
 	public String bio;
 	public String profilePic;
 	public String skills;
-	public String region;
+	public String location;
 
 	public Date dateJoined;
 
@@ -45,7 +46,7 @@ public class Member extends Model {
 
 		// auto-populate remaining attributes (until update mechanism is implemented)
 		this.skills = "Botanical art, photography, watercolor painting.";
-		this.region = "Fairy land";
+		this.location = "Fairy land";
 		this.bio = "Hello and welcome to my profile. I like helping the dwarfs clean their messy home and singing along with the creatures of the woodland. I occasionally draw things.";
 
 	}
@@ -81,5 +82,20 @@ public class Member extends Model {
 		return newMember;
 	}
 
+	public void resetProfilePic() {
+		this.profilePic = "images/profile-pics/sample.jpg";
+        this.save();
+	}
+
+	public void updateInfo(EditProfileForm profileForm) {
+		this.firstname = profileForm.firstname;
+		this.lastname = profileForm.lastname;
+		this.email = profileForm.email;
+		this.level =  profileForm.level;
+		this.location = profileForm.location;
+		this.skills = profileForm.skills;
+		this.bio = profileForm.bio;
+		this.save();
+	}
 
 }

@@ -32,6 +32,19 @@ function checkType(element) {
 		$('#divTypeSketch').show();
 	}
 }
+
+function displayImage(input) {
+	if (input.files && input.files[0]) {
+        var fileReader = new FileReader();
+        reader.onload = function (e) {
+            $('#profile-image')
+                .attr('src', e.target.result)
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+
 /*
 $(function() {
 

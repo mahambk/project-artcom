@@ -1,0 +1,73 @@
+@(profileForm: Form[views.forms.EditProfileForm], member: Member)
+@templates.main("Edit Profile") {
+
+@helper.form(routes.Profile.submitChanges(), 'enctype -> "multipart/form-data") {
+	<div class="row top-space">
+		<div class="small-12 small-centered large-9 large-centered columns">
+			<h4>Edit Profile</h4>
+				<div class="row">
+					<div class="small-4 columns">
+						<p>Profile image</p>
+						<img src="@{routes.Assets.versioned(member.profilePic)}" id = "profile-image" class="thumbnail profile-image" alt="">
+						<input type="file" name="image" id="imageUpload" accept="image/*" onchange="displayImage(this);" class="show-for-sr">
+						<label for="imageUpload" class="button">Change image</label>
+						<a>Delete image</a><!--make ajax call-->
+
+						
+					</div>
+					<div class="small-8 columns">
+						<div class="row">
+							<div class="small-6 columns">
+								<label>First Name
+									<input type="text" @if(profileForm("firstname").hasErrors) {class="is-invalid-input" aria-describedby="fnameHelpText"} name="firstname" value="@profileForm("firstname").value" placeholder="First name">
+									@if(profileForm("firstname").hasErrors) {
+									<p class="help-text" id="fnameHelpText"><span class="error-text">@{profileForm("firstname").error.map {error => error.message}}</span></p>
+									}
+								</label>
+							</div>
+							<div class="small-6 columns">
+								<label>Last Name
+									<input type="text" @if(profileForm("lastname").hasErrors) {class="is-invalid-input" aria-describedby="lnameHelpText"} name="lastname" value="@profileForm("lastname").value" placeholder="Last name">
+									@if(profileForm("lastname").hasErrors) {
+									<p class="help-text" id="lnameHelpText"><span class="error-text">@{profileForm("lastname").error.map {error => error.message}}</span></p>
+									}
+								</label>
+							</div>
+						</div>
+						<label>Email
+						<input type="email" @if(profileForm("email").hasErrors) {class="is-invalid-input" aria-describedby="emailHelpText"} name="email" value="@profileForm("email").value" placeholder="Email">
+						@if(profileForm("email").hasErrors) {
+						<p class="help-text" id="emailHelpText"><span class="error-text">@{profileForm("email").error.map {error => error.message}}</span></p>
+						}
+						</label>
+						<label>Location
+							<input type="text" name="location" value="@profileForm("location").value" placeholder="City, Country/Region">
+						</label>
+						<label>Skill Level
+							<select name="level">
+								<option value="amateur">Amateur</option>
+								<option value="pro">Pro</option>
+							</select>
+						</label>
+					</div>
+				</div>
+
+
+			<label>Skills</label>
+				<textarea name="skills" rows="3" placeholder="Or interests">@profileForm("skills").value</textarea>
+			
+
+			<label>Bio</label>
+				<textarea name="bio" rows="4" placeholder="Say anything about yourself, if you want">@profileForm("bio").value</textarea>
+			
+
+			<div class="row">
+				<div class="small-5 small-offset-7 columns">
+					<button type="submit" value="Submit" class="button">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+}

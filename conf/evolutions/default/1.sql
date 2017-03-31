@@ -32,7 +32,7 @@ create table member (
   bio                           varchar(255),
   profile_pic                   varchar(255),
   skills                        varchar(255),
-  region                        varchar(255),
+  location                      varchar(255),
   date_joined                   timestamp,
   constraint pk_member primary key (username)
 );

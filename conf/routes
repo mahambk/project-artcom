@@ -18,8 +18,11 @@ GET 	/browse/:category 			controllers.Browse.byCategory(category: String)
 GET 	/discover					controllers.Browse.discover()
 GET 	/community					controllers.Community.index()
 
+# Profile
+GET 	/profile/edit				controllers.Profile.editProfile()
 GET 	/profile/:username			controllers.Profile.index(username: String)
 GET 	/profile					controllers.Profile.myProfile()
+POST 	/profile 					controllers.Profile.submitChanges()
 
 # Posts
 GET 	/post/new					controllers.Posts.newPost()
@@ -37,5 +40,3 @@ GET     /message                    controllers.AsyncController.message
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
-
-#GET /assets/images/post_images/silk.jpg	controllers.Assets.versioned(path="/public", file: Asset)
