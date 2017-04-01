@@ -55,6 +55,21 @@ public class Post extends Model {
 		return find.where().ieq("category", category).findList();
 	}
 
+	public static List<Post> findByAuthor(String username) {
+		return find.where().eq("author_username", username).orderBy("datePosted desc").findList();
+	}
+
+	public static Post findRecentByAuthor(String username, int no) {
+		List<Post> list = find.where().eq("author_username", username).orderBy("datePosted desc").findList();
+		Post post;
+		if (no < list.size()) {
+			post = list.get(no);
+		} else {
+			return null;
+		}
+		return post;
+	}
+
 	public static List<Post> findAll() {
 		return find.where().findList();
 	}

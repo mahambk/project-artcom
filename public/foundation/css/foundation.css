@@ -1298,10 +1298,10 @@ select {
         margin-right: -6px; }
   .button-group.primary .button {
     background-color: #8B9FCD;
-    color: #0a0a0a; }
+    color: #ffffff; }
     .button-group.primary .button:hover, .button-group.primary .button:focus {
       background-color: #6B8BC5;
-      color: #0a0a0a; }
+      color: #ffffff; }
   .button-group.secondary .button {
     background-color: #FFFFFF;
     color: #0a0a0a; }

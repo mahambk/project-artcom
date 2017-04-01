@@ -6,7 +6,7 @@
       @if(Application.memberLoggedIn(member)) {
       <div class="row align-right">
         <div class="small-3 columns small-offset-9">
-          <button class="primary button edit-btn"><a href="@routes.Profile.editProfile()">✎</a></button>
+          <a href="@routes.Profile.editProfile()"><button class="primary button edit-btn">✎</button></a>
         </div>
       </div>
       }
@@ -29,14 +29,14 @@
       <h5>Skills</h5>
       <p>@if(!member.skills.isEmpty()){@member.skills
       } else {
-      <a href="@routes.Profile.editProfile()">✎ <i>List your skills or interests</i></a>
+      <a href="/profile/edit#skills">✎ <i>List your skills or interests</i></a>
       }
       </p>
       <hr>
       <h5>Bio</h5>
       <p>@if(!member.bio.isEmpty()){@member.bio
       } else {
-      <a href="@routes.Profile.editProfile()">✎ <i>Add bio</i></a>
+      <a href="/profile/edit#bio">✎ <i>Add bio</i></a>
       }
       </p>
       } else {
@@ -58,26 +58,85 @@
 
       <div class="small-11 large-centered columns">
         <h5>Recent Posts:</h5>
-        <div class="row small-up-1 medium-up-2 large-up-4 top-space">
-          <div class="column">
-            <img src="http://placehold.it/200x200" class="thumbnail" alt="">
+
+        <div class="row">
+          <div class="small-6 columns">
+            <!-- large image here of size 2n x 2n -->
+              @defining(Post.findRecentByAuthor(member.username, 0)) { post =>
+              @if(post != null){
+              <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+              }
+              }
           </div>
-          <div class="column">
-            <img src="http://placehold.it/200x200" class="thumbnail" alt="">
-          </div> 
-          <div class="column">
-            <img src="http://placehold.it/200x200" class="thumbnail" alt="">
+          <div class="small-6 columns">
+            <!-- right side grid of - 4 images of size n x n -->
+            <div class="row small-up-2">
+              <div class="column column-block">
+                @defining(Post.findRecentByAuthor(member.username, 1)) { post =>
+                @if(post != null){
+                <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+                }
+                }
+              </div>
+              <div class="column column-block">
+                @defining(Post.findRecentByAuthor(member.username, 2)) { post =>
+                @if(post != null){
+                <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+                }
+                }
+              </div>
+              <div class="column column-block">
+                @defining(Post.findRecentByAuthor(member.username, 3)) { post =>
+                @if(post != null){
+                <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+                }
+                }
+              </div>
+              <div class="column column-block">
+                @defining(Post.findRecentByAuthor(member.username, 4)) { post =>
+                @if(post != null){
+                <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+                }
+                }
+              </div>
+            </div>
           </div>
-          <div class="column">
-            <img src="http://placehold.it/200x200" class="thumbnail" alt="">
-          </div>
-          <div class="column">
-            <img src="http://placehold.it/200x200" class="thumbnail" alt="">
-          </div> 
-          <div class="column">
-            <img src="http://placehold.it/200x200" class="thumbnail" alt="">
-          </div>    
         </div>
+        <div class="row">
+          <!-- bottom grid of 4 images in a row of size n/2 x n/2 -->
+          <div class="small-3 columns">
+              @defining(Post.findRecentByAuthor(member.username, 5)) { post =>
+              @if(post != null){
+              <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+              }
+              }
+          </div>
+          <div class="small-3 columns">
+              @defining(Post.findRecentByAuthor(member.username, 6)) { post =>
+              @if(post != null){
+              <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+              }
+              }
+          </div>
+          <div class="small-3 columns">
+              @defining(Post.findRecentByAuthor(member.username, 7)) { post =>
+              @if(post != null){
+              <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+              }
+              }
+          </div>
+          <div class="small-3 columns">
+              @defining(Post.findRecentByAuthor(member.username, 8)) { post =>
+              @if(post != null){
+              <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+              }
+              }
+          </div>
+        </div>
+        <div class="column row text-center">
+          <a href="@routes.Profile.editProfile()"><button class="primary button">Show all posts</button></a>
+        </div>
+
         <hr>
 
         <h5>@member.username's Projects:</h5>
