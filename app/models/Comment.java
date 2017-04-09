@@ -1,7 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
-
+import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.persistence.*;
 //import views.forms
@@ -37,8 +37,17 @@ public class Comment extends Model {
 		return find.byId(id);
 	}
 
+	public static List<Comment> findFor(int postId) {
+		return find.where().eq("post_id", postId).orderBy("dateTimeSent desc").findList();
+	}
+
 	public static List<Comment> findAll() {
 		return find.where().findList();
+	}
+
+	public String getDateTimeSent() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMMM yyyy 'at' h:mm a");
+		return dateFormat.format(this.dateTimeSent);
 	}
 
 	public String toString() {

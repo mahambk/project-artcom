@@ -1,32 +1,39 @@
 @import views.html.templates.artCategMenu
-@(message: String)
+@(message: String, postForm: Form[models.Post])
 @templates.main("New post") {
 @helper.form(routes.Posts.uploadPost(), 'enctype -> "multipart/form-data") {
 
 	<div class="row top-space new-post-form">
 		<div class="small-12 small-centered large-9 large-centered columns">
 			<h4>New post</h4>
-			<input type="text" name="title" placeholder="Post Title">
-			<input type="text" name="subtitle" placeholder="Post Subtitle">
+			<input type="text" @if(postForm("title").hasErrors) {class="is-invalid-input" aria-describedby="titleHelpText"} name="title" placeholder="Post Title" value="@postForm("title").value">
+			@if(postForm("title").hasErrors) {
+			<p class="help-text" id="titleHelpText"><span class="error-text">@{postForm("title").error.map {error => error.message}}</span></p>
+			}
+
+			<input type="text" name="subtitle" placeholder="Post Subtitle" value="@postForm("subtitle").value">
 
 			<div class="row">
 				<div class="small-3 small-centered columns">
 					<!--<label for="imageUpload" class="button expanded">Upload Image</label>
 					<input type="file" name="imageFile" id="imageUpload" class="show-for-sr">-->
-					<input type="file" name="image" accept="image/*">
+					<input type="file" @if(postForm("imageFile").hasErrors) {class="is-invalid-input" aria-describedby="imageFileHelpText"} name="image" accept="image/*">
+					@if(postForm("imageFile").hasErrors) {
+					<p class="help-text" id="imageFileHelpText"><span class="error-text">@{postForm("imageFile").error.map {error => error.message}}</span></p>
+					}
 				</div>
 			</div>
 
-            <textarea name="description" rows="6" placeholder="Description"></textarea>
-			<input type="text" name="tags" placeholder="Tags">
+            <textarea name="description" rows="6" placeholder="Description">@postForm("description").value</textarea>
+			<input type="text" name="tags" placeholder="Tags" value="@postForm("tags").value">
 
 			<div class="row columns top-space">
 				<fieldset id="postTypeRadio">
 					<legend>Special Post Type</legend>
-					<input type="radio" class="radioType" name="postType" value="demo" id="radioTypeDemo"><label for="radioTypeDemo">Artwork demo</label>
-					<input type="radio" class="radioType" name="postType" value="progress" id="radioTypeProgress"><label for="radioTypeProgress">Work under progress</label>
-					<input type="radio" class="radioType" name="postType" value="sketch" id="radioTypeSketch"><label for="radioTypeSketch">Sketch</label>
-					<input type="radio" class="radioType" name="postType" value="none" id="radioTypeNone" checked><label for="radioTypeNone">No special type</label>
+					<input type="radio" class="radioType" name="postType" value="demo" id="radioTypeDemo" @if(postForm("postType").value.equals("demo")){ checked }><label for="radioTypeDemo">Artwork demo</label>
+					<input type="radio" class="radioType" name="postType" value="progress" id="radioTypeProgress" @if(postForm("postType").value.equals("progress")){ checked }><label for="radioTypeProgress">Work under progress</label>
+					<input type="radio" class="radioType" name="postType" value="sketch" id="radioTypeSketch" @if(postForm("postType").value.equals("sketch")){ checked }><label for="radioTypeSketch">Sketch</label>
+					<input type="radio" class="radioType" name="postType" value="none" id="radioTypeNone" @if(postForm("postType").value.equals("none")){ checked }><label for="radioTypeNone">No special type</label>
 				</fieldset>
 			</div>
 
@@ -34,7 +41,7 @@
 				<legend>Category</legend>
 				<select name="category">
 					<option value="drawing">Drawing</option>
-					<option value="sketching">Sketching</option>
+					<option value="sketches">Sketches</option>
 					<option value="painting">Painting</option>
 					<option value="calligraphy">Calligraphy</option>
 					<option value="graphicDesign">Graphic design</option>
@@ -53,7 +60,15 @@
 
 			<div class="row columns top-space">
 				<fieldset>
-					<input name="fdbkEnabled" id="fdbkCheck" type="checkbox"><label for="fdbkCheck">Enable feedback</label>
+					<input name="feedbackEnabled" id="fdbkCheck" type="checkbox" @if(postForm("feedbackEnabled").value.equals("on")) { checked="checked" }><label for="fdbkCheck">Enable feedback</label>
+				</fieldset>
+
+				<fieldset>
+					<input type="checkbox" id="yes" checked="checked"><label for="yes">Always yes</label>
+				</fieldset>
+
+				<fieldset>
+					<input type="checkbox" id="no"><label for="no">Always no</label>
 				</fieldset>
 			</div>
             

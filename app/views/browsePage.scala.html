@@ -1,0 +1,71 @@
+@(currentPage: com.avaje.ebean.PagedList[Post], currentCateg: String)
+@templates.main("Scrapbook - Browse") {
+    <div class="row top-space">
+      <div class="large-8 columns">
+        <h4>Browse posts by category</h4>
+        <ul class="menu">
+          <li @if(currentCateg.equals("drawing")){class="active"}><a href="@routes.Browse.list(0, "drawing")">Drawing</a></li>
+          <li @if(currentCateg.equals("sketches")){class="active"}><a href="@routes.Browse.list(0, "sketches")">Sketches</a></li>
+          <li @if(currentCateg.equals("painting")){class="active"}><a href="@routes.Browse.list(0, "painting")">Painting</a></li>
+          <li @if(currentCateg.equals("calligraphy")){class="active"}><a href="@routes.Browse.list(0, "calligraphy")">Calligraphy</a></li>
+          <li @if(currentCateg.equals("graphic design")){class="active"}><a href="@routes.Browse.list(0, "graphic design")">Graphic Design</a></li>
+          <li @if(currentCateg.equals("crafts")){class="active"}><a href="@routes.Browse.list(0, "crafts")">Crafts</a></li>
+        </ul>
+      </div>
+      <div class="large-4 columns">
+      <ul class="menu">
+        <li><input type="search" placeholder="search posts"></li>
+        <li><button type="button" class="button">Search</button></li>
+      </ul>
+      </div>
+    </div>
+    
+    <!-- Post Thumbnails -->
+    <div class="row">
+      <div class="large-11 large centered columns">
+        <div class="row top-space">
+        </div>
+        <div class="row small-up-2 medium-up-3 large-up-4 top-space">
+
+          <!--Dynamic Thumbnail-->
+          @for(p <- currentPage.getList){
+          <div class="column">
+            <div class="post-thumb-image">
+              <a href="@routes.Posts.viewPost(p.id)"><img src="@{routes.Assets.versioned(p.imageFile)}" class="thumbnail" alt=""></a>
+            </div>
+            <div class="post-thumb-info">
+              <p>@p.title</p>
+              <p>by <a href="@routes.Profile.index(p.author.username)">@p.author.username</a></p>
+              <p>
+              @if(!p.tags.isEmpty()) {
+              @for(t <- p.tags.split(",")) {
+              #<a href="@routes.Posts.viewPost(p.id)">@t &nbsp;
+              }
+              }
+              </p>
+            </div>
+          </div>
+          }
+        
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-12 columns">
+        <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+          @if(currentPage.hasPrev){
+          <li class="pagination-previous"><a href="@routes.Browse.list(currentPage.getPageIndex - 1, currentCateg)" aria-label="Previous page">Previous</a></li>
+          } else {
+          <li class="pagination-previous disabled">Previous</li>
+          }
+          <li class="current"><span class="show-for-sr">You're on page</span>Displaying @currentPage.getDisplayXtoYofZ(" - "," of ") posts</li>
+          @if(currentPage.hasNext){
+          <li class="pagination-next"><a href="@routes.Browse.list(currentPage.getPageIndex + 1, currentCateg)" aria-label="Next page">Next</a></li>
+          } else {
+          <li class="pagination-next disabled">Next</li>
+          } 
+        </ul>
+      </div>
+    </div>
+}

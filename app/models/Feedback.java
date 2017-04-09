@@ -1,7 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
-
+import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.persistence.*;
 //import views.forms
@@ -14,6 +14,8 @@ public class Feedback extends Model {
 
 	public String fdbkBody;
 
+	public String imageFile;
+
 	@ManyToOne(targetEntity = Member.class)
 	public Member author;
 
@@ -21,6 +23,8 @@ public class Feedback extends Model {
 	public Post post;
 
 	public Date dateTimeSent;
+
+	public boolean imageAttached;
 
 	
 	public static Find<Integer,Feedback> find = new Find<Integer,Feedback>(){};
@@ -30,15 +34,23 @@ public class Feedback extends Model {
 	}
 
 	public Feedback() {
-
 	}
 
 	public static Feedback findById(int id) {
 		return find.byId(id);
 	}
 
+	public static List<Feedback> findFor(int postId) {
+		return find.where().eq("post_id", postId).orderBy("dateTimeSent desc").findList();
+	}
+
 	public static List<Feedback> findAll() {
 		return find.where().findList();
+	}
+
+	public String getDateTimeSent() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMMM yyyy 'at' h:mm a");
+		return dateFormat.format(this.dateTimeSent);
 	}
 
 	public String toString() {

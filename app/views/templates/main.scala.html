@@ -10,6 +10,7 @@
   <title>@title</title>
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
   <link rel="stylesheet" href="@routes.Assets.versioned("foundation/css/foundation.css")">
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/main.css")">
 </head>
 <body>
@@ -32,18 +33,20 @@
         <li><a href="@routes.Community.index">Community</a></li>
       </div>
       <div class="top-bar-right">
-        @if(!Application.isLoggedIn()) {
         <ul class="menu">
+          
+          <li><input name="query" type="search" placeholder="search posts"></li>
+          <button type="submit" value="Submit" class="button"><i class=".fi-magnifying-glass"></i></button>
+          
+          @if(!Application.isLoggedIn()) {
           <li><a href="@routes.Application.signup">Join</a></li>
           <li><button type="button" class="button"><a href="@routes.Application.login">Login</a></button>
-        </ul>
-        } else {
-        <ul class="menu">
+          } else {
           <li>Welcome, @session().get("loggedIn") &nbsp;</li>
           <li><a href="/profile/@session().get("loggedIn")">My Profile</a>
           <li><button type="button" class="primary button"><a href="@routes.Application.logout">Logout</a></button>
-        </ul>
         }
+        </ul>
       </div>
     </div>
       @content

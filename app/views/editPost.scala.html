@@ -1,0 +1,53 @@
+@import views.html.templates.artCategMenu
+@(postForm: Form[views.forms.EditPostForm], postId: Integer)
+@templates.main("Edit post") {
+@helper.form(routes.Posts.submitChanges(postId)) {
+
+	<div class="row top-space new-post-form">
+		<div class="small-12 small-centered large-9 large-centered columns">
+			<h4>Edit post</h4>
+			<input type="text" @if(postForm("title").hasErrors) {class="is-invalid-input" aria-describedby="titleHelpText"} name="title" placeholder="Post Title" value="@postForm("title").value">
+			@if(postForm("title").hasErrors) {
+			<p class="help-text" id="titleHelpText"><span class="error-text">@{postForm("title").error.map {error => error.message}}</span></p>
+			}
+
+			<input type="text" name="subtitle" placeholder="Post Subtitle" value="@postForm("subtitle").value">
+
+            <textarea name="description" rows="6" placeholder="Description">@postForm("description").value</textarea>
+			<input type="text" name="tags" placeholder="Tags" value="@postForm("tags").value">
+
+			<div class="row columns top-space">
+				<legend>Category</legend>
+				<select name="category">
+					<option value="@postForm("category").value" selected>Current category: @postForm("category").value</option>
+					<option value="drawing">Drawing</option>
+					<option value="sketching">Sketching</option>
+					<option value="painting">Painting</option>
+					<option value="calligraphy">Calligraphy</option>
+					<option value="graphicDesign">Graphic design</option>
+					<option value="crafts">Crafts</option>
+				</select>
+			</div>
+
+			<div class="row columns top-space">
+				<fieldset>
+					<input name="feedbackEnabled" id="fdbkCheck" type="checkbox" @if(postForm("feedbackEnabled").value.equals("true")) { checked="checked" }><label for="fdbkCheck">Enable feedback</label>
+				</fieldset>
+			</div>
+            
+			<div class="row">
+				<div class="small-3 small-offset-9 columns">
+					<button type="submit" value="Submit" class="button expanded">Submit changes</button>
+				</div>
+			</div>
+			}
+			@helper.form(routes.Posts.deletePost(postId)) {
+			<div class="row">
+				<div class="small-4 columns">
+					<button type="submit" value="Submit" class="button alert">Delete post</button>
+				</div>
+			</div>
+			}
+		</div>
+	</div>
+}

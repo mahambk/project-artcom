@@ -15,9 +15,11 @@ create table comment (
 create table feedback (
   id                            serial not null,
   fdbk_body                     varchar(255),
+  image_file                    varchar(255),
   author_username               varchar(255),
   post_id                       integer,
   date_time_sent                timestamp,
+  image_attached                boolean,
   constraint pk_feedback primary key (id)
 );
 
@@ -47,8 +49,8 @@ create table post (
   tags                          varchar(255),
   category                      varchar(255),
   image_file                    varchar(255),
-  date_posted                   timestamp,
-  date_last_edited              timestamp,
+  date_time_posted              timestamp,
+  date_time_last_edited         timestamp,
   feedback_enabled              boolean,
   constraint pk_post primary key (id)
 );

@@ -10,14 +10,18 @@
 				</div>
 				<div class="small-5 columns">
 					<h5>@post.author.username</h5>
-					<p>Posted @post.datePosted</p>
+					<p>Posted @post.getDatePosted()</p>
 					<span class="label level">@post.postType</span>
 				</div>
-                <div class="small-3 columns"></div>
+                <div class="small-3 columns">
+                    <a href="@routes.Posts.editPost(post.id)"><button class="secondary button edit-btn">✎</button></a>
+                </div>
 			</div>
             
-            <!--Post body: image, description and tags-->
+            
             <div class="row top-space">
+
+                <!--Post body: image, description and tags-->
                 <div class="small-7 small-offset-2 columns">
                     <h5>"@post.title"</h5>
                     <h6>@post.subtitle</h6>
@@ -25,35 +29,52 @@
                     <p class="post-desc">@post.description</p>
                     <p>Tagged: @post.tags</p>
                 </div>
-                <div class="small-3 columns"></div>
+
+                <!-- Side panel -->
+                <div class="small-3 columns">
+                    @if(post.postType.equals("progress")){
+                    <h5>Progress Panel</h5>
+                    }
+
+                    @if(post.postType.equals("demo")){
+                    <h5>Artwork Details</h5>
+                    }
+                </div>
+
             </div>
             
             <!--Feedback-->
             @if(post.feedbackEnabled == true){
-            <div class="row top-space feedback-panel">
+            <div class="row top-space feedback-panel" id="feedback">
                 <div class="small-9 small-offset-2 columns">
                     <h5>Feedback Panel</h5>
 
-                    <!--Sample Feedback box-->
-                    <div class="row comment-box">
-                        <div class="small-2 columns">
-                            <img src="@{routes.Assets.versioned("images/profile-pics/sample.jpg")}" class="thumbnail" alt="">
-                        </div>
-                        <div class="small-10 columns comment-body">
-                            <h6>jellycoret</h6>
-                            <p>Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus, cum eros quis aliquam wisi. Nulla wisi laoreet suspendisse integer vivamus elit eu mauris hendrerit facilisi, mi  ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent.</p>
-                        </div>
-                    </div>
-
                     <!--Dynamic Feedback boxes-->
-                    @for(f <- Feedback.findAll()){
-                    <div class="row comment-box" id=@f.id>
+                    @for(f <- Feedback.findFor(post.id)){
+                    <div class="row comment-box" id="@f.id">
                         <div class="small-2 columns">
                             <img src="@{routes.Assets.versioned("images/profile-pics/sample.jpg")}" class="thumbnail" alt="">
                         </div>
                         <div class="small-10 columns comment-body">
                             <h6>@f.author.username</h6>
                             <p>@f.fdbkBody</p>
+                            <p>@f.imageAttached</p>
+                            @if(f.imageAttached) {
+                                <img src="@{routes.Assets.versioned(f.imageFile)}" class="thumbnail" alt="">
+                            }
+
+                            <div class="row">
+                                <div class="small-9 columns comment-footer">
+                                    <p>@f.getDateTimeSent()</p>
+                                </div>
+                                @if(Posts.canDeleteFeedback(f.id)){
+                                <div class="small-2 small-offset-1 columns">
+                                    @helper.form(routes.Posts.deleteFeedback(f.id)) {
+                                    <button type="submit" value="Submit" class="button alert del-btn"><i class="fi-trash"></i></button>
+                                    }
+                                </div>
+                                }
+                            </div>
                         </div>
                     </div>
                     }
@@ -79,7 +100,7 @@
             }
 
             <!--Comments-->
-            <div class="row top-space">
+            <div class="row top-space" id="comments">
                 <div class="small-7 small-offset-2 columns">
                     <h5>Comments</h5>
                     
@@ -87,7 +108,7 @@
                     @helper.form(routes.Posts.sendComment(post.id)) {
                     <div class="row">
                         <div class="small-10 columns">
-                            <input type="text" name="cmntBody" placeholder="Share a thought">
+                            <textarea name="cmntBody" rows="2" placeholder="Share a thought"></textarea>
                         </div>
                         <div class="small-2 columns">
                             <button type="submit" value="Submit" class="button">Send</button>
@@ -96,25 +117,26 @@
                     }
 
                     <!--Comment box-->
-                    <div class="row comment-box">
-                        <div class="small-2 columns">
-                            <img src="@{routes.Assets.versioned("images/profile-pics/sample.jpg")}" class="thumbnail" alt="">
-                        </div>
-                        <div class="small-10 columns comment-body">
-                            <h6>jellycoret</h6>
-                            <p>Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent </p>
-                        </div>
-                    </div>
-
-                    <!--Comment box-->
-                    @for(c <- Comment.findAll()){
-                    <div class="row comment-box" id=@c.id>
+                    @for(c <- Comment.findFor(post.id)){
+                    <div class="row comment-box" id="@c.id">
                         <div class="small-2 columns">
                             <img src="@{routes.Assets.versioned("images/profile-pics/sample.jpg")}" class="thumbnail" alt="">
                         </div>
                         <div class="small-10 columns comment-body">
                             <h6>@c.author.username</h6>
                             <p>@c.cmntBody</p>
+                            <div class="row">
+                                <div class="small-9 columns comment-footer">
+                                    <p>@c.getDateTimeSent()</p>
+                                </div>
+                                @if(Posts.canDeleteComment(c.id)){
+                                <div class="small-2 small-offset-1 columns">
+                                    @helper.form(routes.Posts.deleteComment(c.id)) {
+                                    <button type="submit" value="Submit" class="button alert del-btn"><i class="fi-trash"></i></button>
+                                    }
+                                </div>
+                                }
+                            </div>
                         </div>
                     </div>
                     }

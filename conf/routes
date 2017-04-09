@@ -13,23 +13,33 @@ GET 	/login						controllers.Application.login()
 POST	/login						controllers.Application.submitLogin()
 GET 	/logout						controllers.Application.logout()
 
-GET 	/browse						controllers.Browse.index()
+GET 	/browse/					controllers.Browse.index()
+GET 	/browse/:category/:page		controllers.Browse.list(page: Integer, category: String)
 GET 	/browse/:category 			controllers.Browse.byCategory(category: String)
 GET 	/discover					controllers.Browse.discover()
 GET 	/community					controllers.Community.index()
 
 # Profile
 GET 	/profile/edit				controllers.Profile.editProfile()
+POST 	/profile/edit/submit 		controllers.Profile.submitChanges()
 GET 	/profile/:username			controllers.Profile.index(username: String)
 GET 	/profile					controllers.Profile.myProfile()
-POST 	/profile 					controllers.Profile.submitChanges()
+
 
 # Posts
 GET 	/post/new					controllers.Posts.newPost()
-POST 	/post/upload				controllers.Posts.uploadPost()
+POST 	/post/new/upload			controllers.Posts.uploadPost()
+GET 	/post/:postId/edit 			controllers.Posts.editPost(postId: Integer)
+POST 	/post/edit/submit 			controllers.Posts.submitChanges(postId: Integer)
+POST 	/post/edit 					controllers.Posts.deletePost(postId: Integer)
 GET 	/post/:postId				controllers.Posts.viewPost(postId: Integer)
+GET 	/post/:postId#comments		controllers.Posts.viewPostCommentArea(postId: Integer)
+GET 	/post/:postId#feedback		controllers.Posts.viewPostFeedbackArea(postId: Integer)
 POST 	/post/sendComment			controllers.Posts.sendComment(postId: Integer)
+POST 	/post/deleteComment 		controllers.Posts.deleteComment(cmntId: Integer)
 POST 	/post/sendFeedback			controllers.Posts.sendFeedback(postId: Integer)
+POST 	/post/deleteFeedback 		controllers.Posts.deleteFeedback(fdbkId: Integer)
+
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
@@ -40,3 +50,4 @@ GET     /message                    controllers.AsyncController.message
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+#GET     /assets/images/feedback-images/*file 	controllers.Assets.versioned(path="/public/images/feedback-images", file: Asset)

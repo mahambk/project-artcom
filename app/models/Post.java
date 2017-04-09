@@ -1,10 +1,14 @@
 package models;
 
 import com.avaje.ebean.Model;
-
+import com.avaje.ebean.PagedList;
 import java.util.*;
+import java.text.SimpleDateFormat;
 import javax.persistence.*;
 //import views.forms
+import play.data.validation.ValidationError;
+import views.forms.EditPostForm;
+
 
 @Entity
 public class Post extends Model {
@@ -20,13 +24,13 @@ public class Post extends Model {
 	public Member author;
 
 	public String description;
-	public String tags;	// probably should parse into an array
-	public String category; // probably should be an instance of a 'category' type
+	public String tags;
+	public String category;
 	public String imageFile;
 
-	public Date datePosted;
+	public Date dateTimePosted;
 
-	public Date dateLastEdited;
+	public Date dateTimeLastEdited;
 	public boolean feedbackEnabled;
 	
 	
@@ -44,7 +48,12 @@ public class Post extends Model {
 	}
 
 	public Post() {
-
+		this.postType = "none";
+		this.title = "";
+		this.subtitle = "";
+		this.description = "";
+		this.tags = "";
+		this.feedbackEnabled = false;
 	}
 
 	public static Post findById(int id) {
@@ -55,12 +64,16 @@ public class Post extends Model {
 		return find.where().ieq("category", category).findList();
 	}
 
+	public static PagedList<Post> findPageList(int page, int pageSize, String category) {
+		return find.where().ieq("category", category).findPagedList(page, pageSize);
+	}
+
 	public static List<Post> findByAuthor(String username) {
-		return find.where().eq("author_username", username).orderBy("datePosted desc").findList();
+		return find.where().eq("author_username", username).orderBy("dateTimePosted desc").findList();
 	}
 
 	public static Post findRecentByAuthor(String username, int no) {
-		List<Post> list = find.where().eq("author_username", username).orderBy("datePosted desc").findList();
+		List<Post> list = find.where().eq("author_username", username).orderBy("dateTimePosted desc").findList();
 		Post post;
 		if (no < list.size()) {
 			post = list.get(no);
@@ -74,6 +87,32 @@ public class Post extends Model {
 		return find.where().findList();
 	}
 
+	/*public static PagedList<Post> searchPosts(String query) {
+		Query q = Ebean.createQuery(Post.class);
+		q.where().disjunction()
+		    .add(Expr.eq("varName1",value).eq("varName2",value))
+		    .add(Expr.eq("varName3",value3))
+		    .add(Expr.eq("varName4",value4).eq("varName5",value5))
+
+
+
+		List<Post> listA = find.where().ilike("title", query).findList();
+		List<Post> listB = find.where().ilike("subtitle", query).findList();
+		List<Post> combinedList = new List<Post>();
+		combinedList.addAll(listA);
+		combinedList.addAll(listB);
+
+		PagedList<Post> = list.findPagedList(page, pageSize);
+
+		return 
+	}/*
+	
+
+	public String getDatePosted() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMMM yyyy");
+		return dateFormat.format(this.dateTimePosted);
+	}
+
 	public String toString() {
 		return String.format("[Post ID: '%d', Title: '%s', Subtitle: '%s', Description: '%s', Tags: '%s',"
 			+ "Post type: '%s', Category: '%s', Feedback enabled: '%s']", this.id, this.title, this.subtitle,
@@ -82,24 +121,52 @@ public class Post extends Model {
 
 	@Override
 	public void save() {
-		datePosted();
+		dateTimePosted();
 		super.save();
 	}
 
 	@Override
 	public void update() {
-		dateLastEdited();
+		dateTimeLastEdited();
 		super.update();
 	}
 
 	@PrePersist
-	public void datePosted() {
-		this.datePosted = this.dateLastEdited = new Date();
+	public void dateTimePosted() {
+		this.dateTimePosted = this.dateTimeLastEdited = new Date();
 	}
 
 	@PreUpdate
-	public void dateLastEdited() {
-		this.dateLastEdited = new Date();
+	public void dateTimeLastEdited() {
+		this.dateTimeLastEdited = new Date();
 	}
 
+	/**
+	* Form validation.
+	* Checks title is not empty
+	*/
+	public List<ValidationError> validate() {
+
+		List<ValidationError> errors = new ArrayList<>();
+
+		if (title == null || title.length() == 0) {
+			errors.add(new ValidationError("title", "Please enter a post title"));
+		}
+
+		/*if (imageFile == null) {
+			errors.add(new ValidationError("imageFile", "Please select an image file"));
+		}*/
+
+		return errors;
+	}
+
+	public void editPost(EditPostForm editedPost) {
+		this.title = editedPost.title;
+		this.subtitle = editedPost.subtitle;
+		this.description = editedPost.description;
+		this.tags = editedPost.tags;
+		this.category = editedPost.category;
+		this.feedbackEnabled = editedPost.feedbackEnabled;
+		save();
+	}
 }

@@ -8,6 +8,7 @@ import java.nio.file.*;
 import views.html.*;
 import models.*;
 import play.data.Form;
+import views.forms.EditPostForm;
 
 /**
  */
@@ -25,13 +26,38 @@ public class Posts extends Controller {
         
     }
 
+    public Result viewPostCommentArea(int postId) {
+        //if (postId != null && !postId.isEmpty()) {
+            Post post = Post.findById(postId);
+            return ok(viewPost.render(post));
+        //} else {
+            //return badRequest(home.render());
+        //}
+    }
+
+    public Result viewPostFeedbackArea(int postId) {
+        //if (postId != null && !postId.isEmpty()) {
+            Post post = Post.findById(postId);
+            return ok(viewPost.render(post));
+        //} else {
+            //return badRequest(home.render());
+        //}
+        
+    }
+
+    public Result newPost() {
+        Form<Post> form = Form.form(Post.class).fill(new Post());
+       return ok(newPost.render("", form));
+    }   
+
     public Result uploadPost() {
 
         Form<Post> form = Form.form(Post.class).bindFromRequest();
 
         if (form.hasErrors()) {
+            String errorMsg = form.errorsAsJson().toString();
             flash("error", "Please complete above fields.");
-            return ok(newPost.render(""));
+            return ok(newPost.render(errorMsg, form));
         } else {
             Post post = form.get();
             MultipartFormData<File> body = request().body().asMultipartFormData();
@@ -45,18 +71,53 @@ public class Posts extends Controller {
                 String filePath = relativePath + "/public/images/post-images/";
                 imageFile.renameTo(new File(filePath, fileName));
                 post.imageFile = "images/post-images/" + fileName;
-                //Member member = Member.findByUsername(session().get("loggedIn"));
-                Member member = Member.findByUsername("snowwhite");
+                Member member = Member.findByUsername(session().get("loggedIn"));
                 post.author = member;
                 post.save();
                 return ok(viewPost.render(post));
-                //return ok(newPost.render(post.toString()));
             } else {
                 flash("error", "Missing file");
-                return ok(newPost.render(""));
+                return ok(newPost.render("Please choose an image file to upload", form));
             }
         }
      }
+
+     public Result editPost(int postId) {
+        Post post = Post.findById(postId);
+
+        if(post.author.username.equals(session().get("loggedIn"))) {
+            EditPostForm currentPostForm = new EditPostForm(post.id, post.title, post.subtitle, post.description, post.tags,
+                post.category, post.feedbackEnabled);
+            Form<EditPostForm> form = Form.form(EditPostForm.class).fill(currentPostForm);
+
+            return ok(editPost.render(form, postId));
+        }
+
+        return badRequest(viewPost.render(post));
+     }
+
+    public Result submitChanges(int postId) {
+        Form<EditPostForm> form = Form.form(EditPostForm.class).bindFromRequest();
+        Post post = Post.findById(postId);
+
+        if (form.hasErrors()) {
+            flash("error", "Please complete above fields.");
+            return ok(editPost.render(form, postId));
+        } else {
+            post.editPost(form.get());
+            return ok(viewPost.render(post));
+        }
+    }
+
+    public Result deletePost(int postId) {
+        Post post = Post.findById(postId);
+        String author = post.author.username;
+
+        if(author.equals(session().get("loggedIn"))) {
+            post.delete();
+        }
+        return redirect(routes.Profile.index(author));
+    }
 
      public Result sendComment(int postId) {
         Form<Comment> cmntForm = Form.form(Comment.class).bindFromRequest();
@@ -72,8 +133,29 @@ public class Posts extends Controller {
             cmnt.author = member;
             cmnt.post = post;
             cmnt.save();
-            return ok(viewPost.render(post));
+            return redirect(routes.Posts.viewPostCommentArea(postId));
         }
+     }
+
+     public static boolean canDeleteComment(int cmntId) {
+        if(Application.isLoggedIn()){
+            Comment comment = Comment.findById(cmntId);
+            String cmntAuthor = comment.author.username;
+            String postAuthor = comment.post.author.username;
+            String currentUser = session().get("loggedIn");
+            if(currentUser.equals(cmntAuthor) || currentUser.equals(postAuthor)) {
+                return true;
+            }
+        }
+        return false;
+     }
+
+     public Result deleteComment(int cmntId) {
+        Comment comment = Comment.findById(cmntId);
+        if(Posts.canDeleteComment(cmntId)) {
+             comment.delete();
+         }
+         return redirect(routes.Posts.viewPostCommentArea(comment.post.id));
      }
 
     public Result sendFeedback(int postId) {
@@ -85,39 +167,49 @@ public class Posts extends Controller {
         } else {
             flash("success", "Form parsed with no errors.");
             Feedback fdbk = fdbkForm.get();
-            //Member member = Member.findByUsername(session().get("loggedIn"));
-            Member member = Member.findByUsername("snowwhite");
+            Member member = Member.findByUsername(session().get("loggedIn"));
             fdbk.author = member;
             fdbk.post = post;
 
-            /*MultipartFormData<File> body = request().body().asMultipartFormData();
+            MultipartFormData<File> body = request().body().asMultipartFormData();
             FilePart<File> image = body.getFile("image");
             if (image != null) {
+                fdbk.imageAttached = true;
                 String fileName = image.getFilename();
                 String contentType = image.getContentType();
                 File imageFile = image.getFile();
                 java.nio.file.Path currentRelativePath = Paths.get("");
                 String relativePath = currentRelativePath.toAbsolutePath().toString();
-                String filePath = relativePath + "/public/images/post-images/";
+                String filePath = relativePath + "/public/images/feedback-images/";
                 imageFile.renameTo(new File(filePath, fileName));
-                post.imageFile = "images/post-images/" + fileName;
-                //Member member = Member.findByUsername(session().get("loggedIn"));
-                Member member = Member.findByUsername("snowwhite");
-                post.author = member;
-                post.save();
-                return ok(viewPost.render(post));
-                //return ok(newPost.render(post.toString()));
+                fdbk.imageFile = "images/feedback-images/" + fileName;
             } else {
-                flash("error", "Missing file");
-                return badRequest(home.render());
-            }*/
-
+                fdbk.imageAttached = false;
+            }
             fdbk.save();
-            return ok(viewPost.render(post));
+            return redirect(routes.Posts.viewPostFeedbackArea(postId));
         }
      }
 
-    public Result newPost() {
-	   return ok(newPost.render(""));
+    public static boolean canDeleteFeedback(int fdbkId) {
+       if(Application.isLoggedIn()){
+           Feedback feedback = Feedback.findById(fdbkId);
+           String fdbkAuthor = feedback.author.username;
+           String postAuthor = feedback.post.author.username;
+           String currentUser = session().get("loggedIn");
+           if(currentUser.equals(fdbkAuthor) || currentUser.equals(postAuthor)) {
+               return true;
+           }
+       }
+       return false;
     }
+
+    public Result deleteFeedback(int fdbkId) {
+       Feedback feedback = Feedback.findById(fdbkId);
+       if(Posts.canDeleteFeedback(fdbkId)) {
+            feedback.delete();
+        }
+        return redirect(routes.Posts.viewPostFeedbackArea(feedback.post.id));
+    }
+
 }
