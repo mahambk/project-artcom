@@ -7,7 +7,7 @@ GET     /                           controllers.Application.index
 
 # Signup and Login
 GET 	/signup						controllers.Application.signup()
-POST	/signup						controllers.Application.submitSignup()
+POST	/signupSubmit				controllers.Application.submitSignup()
 GET 	/login						controllers.Application.login()
 POST	/login						controllers.Application.submitLogin()
 GET 	/logout						controllers.Application.logout()

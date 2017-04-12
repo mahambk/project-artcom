@@ -21,7 +21,7 @@ public class Posts extends Controller {
             Post post = Post.findById(postId);
             return ok(viewPost.render(post));
         //} else {
-            //return badRequest(home.render());
+            //return badRequest(index.render());
         //}
         
     }
@@ -31,7 +31,7 @@ public class Posts extends Controller {
             Post post = Post.findById(postId);
             return ok(viewPost.render(post));
         //} else {
-            //return badRequest(home.render());
+            //return badRequest(index.render());
         //}
     }
 
@@ -40,7 +40,7 @@ public class Posts extends Controller {
             Post post = Post.findById(postId);
             return ok(viewPost.render(post));
         //} else {
-            //return badRequest(home.render());
+            //return badRequest(index.render());
         //}
         
     }
@@ -66,20 +66,20 @@ public class Posts extends Controller {
                 String fileName = image.getFilename();
                 String contentType = image.getContentType();
                 File imageFile = image.getFile();
-                java.nio.file.Path currentRelativePath = Paths.get("");
-                String relativePath = currentRelativePath.toAbsolutePath().toString();
-                String filePath = relativePath + "/public/images/post-images/";
-                imageFile.renameTo(new File(filePath, fileName));
-                post.imageFile = "images/post-images/" + fileName;
-                Member member = Member.findByUsername(session().get("loggedIn"));
-                post.author = member;
-                post.save();
-                return ok(viewPost.render(post));
-            } else {
-                flash("error", "Missing file");
-                return ok(newPost.render("Please choose an image file to upload", form));
-            }
+                if (fileName != null && !fileName.equals("")) {
+                    java.nio.file.Path currentRelativePath = Paths.get("");
+                    String relativePath = currentRelativePath.toAbsolutePath().toString();
+                    String filePath = relativePath + "/public/images/post-images/";
+                    imageFile.renameTo(new File(filePath, fileName));
+                    post.imageFile = "images/post-images/" + fileName;
+                    Member member = Member.findByUsername(session().get("loggedIn"));
+                    post.author = member;
+                    post.save();
+                    return ok(viewPost.render(post));
+                }
+            }  
         }
+            return ok(newPost.render("Please choose an image file to upload", form));
      }
 
      public Result editPost(int postId) {

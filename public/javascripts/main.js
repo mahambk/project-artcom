@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	$('#tags').tagsInput();
 	$('#divTypeDemo').hide();
 	$('#divTypeProgress').hide();
 	$('#divTypeSketch').hide();

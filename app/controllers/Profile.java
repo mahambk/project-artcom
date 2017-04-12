@@ -21,7 +21,8 @@ public class Profile extends Controller {
         	       return ok(profile.render(member));
                 }
     	}
-    	return badRequest(home.render());
+    	//return badRequest(index.render());
+        return ok(login.render(username));
     }
 
     public Result myProfile() {
@@ -29,7 +30,7 @@ public class Profile extends Controller {
     		Member member = Member.findByUsername(session().get("loggedIn"));
         	return ok(profile.render(member));
     	} else {
-    		return badRequest(home.render());
+    		return badRequest(index.render());
     	}
     }
 
@@ -40,7 +41,7 @@ public class Profile extends Controller {
                    return ok(memberPosts.render(Post.findPageByAuthor(0, 8, member.username), member));
                 }
         }
-        return badRequest(home.render());
+        return badRequest(index.render());
     }
 
     public Result viewPostPage(String username, int page) {
@@ -50,7 +51,7 @@ public class Profile extends Controller {
                    return ok(memberPosts.render(Post.findPageByAuthor(page, 8, member.username), member));
                 }
         }
-        return badRequest(home.render());
+        return badRequest(index.render());
     }
 
     public Result editProfile() {
@@ -64,7 +65,7 @@ public class Profile extends Controller {
 
             return ok(editProfile.render(profileForm, member));
         } else {
-            return badRequest(home.render());
+            return badRequest(index.render());
         }
     }
 

@@ -32,7 +32,7 @@ public class LoginForm {
 
 		List<ValidationError> errors = new ArrayList<>();
 
-		if (!Member.loginValid(username, password)) {
+		if (!Member.validateLogin(username, password)) {
 			errors.add(new ValidationError("password", "Incorrect username or password."));
 		}
 

@@ -9,6 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@title</title>
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+  <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/jquery.tagsinput.css")">
   <link rel="stylesheet" href="@routes.Assets.versioned("foundation/css/foundation.css")">
   <link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/main.css")">
@@ -49,7 +50,7 @@
           <li><button type="button" class="button"><a href="@routes.Application.login">Login</a></button>
           } else {
           <li>Welcome, @session().get("loggedIn") &nbsp;</li>
-          <li><a href="/profile/@session().get("loggedIn")">My Profile</a>
+          <li><a href="@routes.Profile.myProfile()">My Profile</a>
           <li><button type="button" class="primary button"><a href="@routes.Application.logout">Logout</a></button>
           }
           
@@ -67,5 +68,6 @@
       <script src="@routes.Assets.versioned("foundation/js/vendor/foundation.js")"></script>
       <script src="@routes.Assets.versioned("foundation/js/app.js")"></script>
       <script src="@routes.Assets.versioned("javascripts/main.js")"></script>
+      <script src="@routes.Assets.versioned("javascripts/jquery.tagsinput.js")"></script>
     </body>
     </html>

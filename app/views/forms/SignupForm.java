@@ -9,7 +9,7 @@ import play.data.validation.ValidationError;
 * Backing class for the Member signup form.
 *
 */
-public class MemberSignupForm {
+public class SignupForm {
 
 	public String firstname = "";
 	public String lastname = "";
@@ -17,16 +17,16 @@ public class MemberSignupForm {
 	public String username = "";
 	public String password = "";
 	public String passwordRepeat = "";
-	public String dob = "";
 	public String birthday = "";
 	public String birthyear = "";
+	public String birthmonth = "";
 	public String level = "";
 
 
-	public MemberSignupForm() {
+	public SignupForm() {
 	}
 
-	public MemberSignupForm(String firstname, String lastname, String email, String username,
+	public SignupForm(String firstname, String lastname, String email, String username,
 		String password, String passwordRepeat, String birthday, String birthmonth, String birthyear, String level) {
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -34,9 +34,9 @@ public class MemberSignupForm {
 		this.username = username;
 		this.password = password;
 		this.passwordRepeat = passwordRepeat;
-		this.dob = birthyear + "-" + birthmonth + "-" + birthday;
 		this.birthday = birthday;
 		this.birthyear = birthyear;
+		this.birthmonth = birthmonth;
 		this.level = level;
 	}
 
@@ -60,12 +60,22 @@ public class MemberSignupForm {
 			errors.add(new ValidationError("lastname", "Enter your last name"));
 		}
 
+		String emailRegex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+		+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
 		if (email == null || email.length() == 0) {
 			errors.add(new ValidationError("email", "Enter your email"));
+		} else if (!email.matches(emailRegex)) {
+			errors.add(new ValidationError("email", "Please enter a valid email"));
 		}
 
 		if (username == null || username.length() == 0) {
 			errors.add(new ValidationError("username", "Enter a valid username"));
+		} else if (Member.usernameExists(username)) {
+			// check if username already exists in db
+			//errors.add(new ValidationError("username"), "This username is already taken"));
+			errors.add(new ValidationError("username", "This username is already taken"));
+
 		}
 		
 		if (password == null || password.length() < 8) {
@@ -89,15 +99,6 @@ public class MemberSignupForm {
 				errors.add(new ValidationError("birthyear", "Please enter a valid birth date."));
 		}
 
-
-		/*else {
-			int intBirthDay = Integer.parseInt(birthday);
-			int intBirthYear = Integer.parseInt(birthyear);
-			if (intBirthDay < 1 || intBirthDay > 31
-				|| intBirthYear < 1900 || intBirthYear > 2017) {
-				errors.add(new ValidationError("birthday", "Please enter a valid date."));
-			}
-		}*/
 
 		if (errors.size() > 0)
 			return errors;

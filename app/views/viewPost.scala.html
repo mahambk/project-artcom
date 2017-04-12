@@ -14,7 +14,9 @@
 					<span class="label level">@post.postType</span>
 				</div>
                 <div class="small-3 columns">
+                    @if(Application.memberLoggedIn(post.author)) {
                     <a href="@routes.Posts.editPost(post.id)"><button class="secondary button edit-btn">✎</button></a>
+                    }
                 </div>
 			</div>
             

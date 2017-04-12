@@ -28,8 +28,8 @@ public class Application extends Controller {
      * Returns the signup form page
      */
     public Result signup() {
-    	MemberSignupForm emptyForm = new MemberSignupForm();
-    	Form<MemberSignupForm> signupForm = Form.form(MemberSignupForm.class).fill(emptyForm);
+    	SignupForm emptyForm = new SignupForm();
+    	Form<SignupForm> signupForm = Form.form(SignupForm.class).fill(emptyForm);
         return ok(signup.render(signupForm, ""));
     }
 
@@ -47,13 +47,13 @@ public class Application extends Controller {
     		flash("success", "Form parsed with no errors.");
     		session().clear();
     		session("loggedIn", loginForm.get().username);
-    		return redirect(routes.HomeController.index());
+    		return redirect(routes.Application.index());
     	}
     }
 
     public Result logout() {
     	session().remove("loggedIn");
-    	return redirect(routes.HomeController.index());
+    	return redirect(routes.Application.index());
     }
 
     public static boolean isLoggedIn() {
@@ -75,7 +75,7 @@ public class Application extends Controller {
     * @return
     */
     public Result submitSignup() {
-    	Form<MemberSignupForm> signupForm = Form.form(MemberSignupForm.class).bindFromRequest();
+    	Form<SignupForm> signupForm = Form.form(SignupForm.class).bindFromRequest();
 
     	if (signupForm.hasErrors()) {
     		flash("error", "Please complete above fields.");
@@ -87,7 +87,7 @@ public class Application extends Controller {
     		flash("success", "Form parsed with no errors.");
             session().clear();
             session("loggedIn", signupForm.get().username);
-            return redirect(routes.HomeController.index());
+            return redirect(routes.Application.index());
     		/* For testing
             String confirmation = "Form parsed successfully. Member instance created: " + member.toString();
     		return ok(signup.render(signupForm, confirmation));*/

@@ -25,7 +25,7 @@
 			</div>
 
             <textarea name="description" rows="6" placeholder="Description">@postForm("description").value</textarea>
-			<input type="text" name="tags" placeholder="Tags" value="@postForm("tags").value">
+			<input type="text" name="tags" id="tags" placeholder="Tags" value="@postForm("tags").value">
 
 			<div class="row columns top-space">
 				<fieldset id="postTypeRadio">
@@ -64,7 +64,7 @@
 				</fieldset>
 			</div>
             
-			<p>@message</p>
+			<p class="error-text">@message</p>
 
 			<div class="row">
 				<div class="small-3 small-offset-9 columns">
