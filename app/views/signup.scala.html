@@ -1,5 +1,5 @@
 @(signupForm: Form[views.forms.MemberSignupForm], message: String)
-@templates.main("Join Scrapbook") {
+@templates.main("Join Scrapbook", "searchOff") {
 
 @helper.form(routes.Application.submitSignup()) {
 	<div class="row top-space">

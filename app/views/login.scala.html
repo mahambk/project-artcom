@@ -1,5 +1,5 @@
-@(message: String)
-@templates.main("Login to Scrapbook") {
+@(errorMessage: String)
+@templates.main("Login to Scrapbook", "searchOff") {
 
 @helper.form(routes.Application.submitLogin()) {
 	<div class="row top-space">
@@ -9,7 +9,7 @@
 			<input type="password" name="password" placeholder="Password">
 			
 			<div class="column row">
-				<p>@message</p>
+				<p>@errorMessage</p>
 			</div>
 			<div class="row">
 				<div class="small-4 small-offset-8 columns">

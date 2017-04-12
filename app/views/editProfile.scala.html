@@ -1,5 +1,5 @@
 @(profileForm: Form[views.forms.EditProfileForm], member: Member)
-@templates.main("Edit Profile") {
+@templates.main("Edit Profile", "searchOff") {
 
 @helper.form(routes.Profile.submitChanges(), 'enctype -> "multipart/form-data") {
 	<div class="row top-space">

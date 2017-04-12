@@ -1,6 +1,6 @@
 @import views.html.templates.artCategMenu
 @(postForm: Form[views.forms.EditPostForm], postId: Integer)
-@templates.main("Edit post") {
+@templates.main("Edit post", "searchOff") {
 @helper.form(routes.Posts.submitChanges(postId)) {
 
 	<div class="row top-space new-post-form">

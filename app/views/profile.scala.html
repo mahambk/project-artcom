@@ -1,5 +1,5 @@
 @(member: Member)
-@templates.main("Profile") {
+@templates.main("Profile", "searchOn") {
   <div class="row top-space">
     <div class="small-3 columns text-center profile">
 
@@ -11,7 +11,7 @@
       </div>
       }
 
-      <img src="@{routes.Assets.versioned("images/profile-pics/sample.jpg")}" class="thumbnail text-center profile-image" alt="">
+      <img src="@{routes.Assets.versioned(member.profilePic)}" class="thumbnail text-center profile-image" alt="">
       <h5 class="name">@member.firstname @member.lastname</h5>
       <h6 class="username">@member.username</h6>
       <span class="label level">@member.level</span>
@@ -102,6 +102,7 @@
             </div>
           </div>
         </div>
+
         <div class="row">
           <!-- bottom grid of 4 images in a row of size n/2 x n/2 -->
           <div class="small-3 columns">
@@ -133,8 +134,9 @@
               }
           </div>
         </div>
+
         <div class="column row text-center">
-          <a href="@routes.Profile.editProfile()"><button class="primary button">Show all posts</button></a>
+          <a href="@routes.Profile.viewPosts(member.username)"><button class="primary button">Show all posts</button></a>
         </div>
 
         <hr>

@@ -40,7 +40,7 @@ public class EditProfileForm {
 	* Form validation.
 	* Checks for:
 	* First name, last name, username and email are non-empty
-	* Password is at least eight characters long
+	* 
 	*/
 	public List<ValidationError> validate() {
 

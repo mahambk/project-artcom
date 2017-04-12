@@ -1,6 +1,6 @@
 @import views.html.templates.artCategMenu
 @(message: String, postForm: Form[models.Post])
-@templates.main("New post") {
+@templates.main("New post", "searchOff") {
 @helper.form(routes.Posts.uploadPost(), 'enctype -> "multipart/form-data") {
 
 	<div class="row top-space new-post-form">
@@ -61,14 +61,6 @@
 			<div class="row columns top-space">
 				<fieldset>
 					<input name="feedbackEnabled" id="fdbkCheck" type="checkbox" @if(postForm("feedbackEnabled").value.equals("on")) { checked="checked" }><label for="fdbkCheck">Enable feedback</label>
-				</fieldset>
-
-				<fieldset>
-					<input type="checkbox" id="yes" checked="checked"><label for="yes">Always yes</label>
-				</fieldset>
-
-				<fieldset>
-					<input type="checkbox" id="no"><label for="no">Always no</label>
 				</fieldset>
 			</div>
             

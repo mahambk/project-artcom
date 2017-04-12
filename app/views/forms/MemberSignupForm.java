@@ -44,8 +44,9 @@ public class MemberSignupForm {
 	/**
 	* Form validation.
 	* Checks for:
-	* First name, last name, username and email are non-empty
+	* First name, last name, username and email, date non-empty
 	* Password is at least eight characters long
+	* Password repeat matches password
 	*/
 	public List<ValidationError> validate() {
 

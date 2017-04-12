@@ -22,6 +22,12 @@ h1, h2, h3, h4, h5, h6 {
 	background-color: #F6F1EE;
 }
 
+form {
+   display:inline;
+   margin:0;
+   padding:0;
+}
+
 .welcome-section {
 	/*background-color: #E3F8F0;*/
 	background-color: #C0CAE1;

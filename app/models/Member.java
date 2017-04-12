@@ -1,7 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
-
+import com.avaje.ebean.PagedList;
 import java.util.*;
 import javax.persistence.*;
 //import java.sql.Date;
@@ -43,12 +43,6 @@ public class Member extends Model {
 		this.dateJoined = new Date();
 		//this.dob = Date.valueOf(dob);
 		this.level = level;
-
-		// auto-populate remaining attributes (until update mechanism is implemented)
-		this.skills = "Botanical art, photography, watercolor painting.";
-		this.location = "Fairy land";
-		this.bio = "Hello and welcome to my profile. I like helping the dwarfs clean their messy home and singing along with the creatures of the woodland. I occasionally draw things.";
-
 	}
 
 	public static List<Member> findAll() {
@@ -57,6 +51,31 @@ public class Member extends Model {
 
 	public static Member findByUsername(String username) {
 		return find.byId(username);
+	}
+
+	public static PagedList<Member> findAllPagedList(int page, int pageSize) {
+		return find.findPagedList(page, pageSize);
+	}
+
+	public static PagedList<Member> findSearchPage(int page, int pageSize, String query) {
+		return find.where()
+		  .or()
+		    .and()
+		      .ilike("username", "%" + query + "%")
+		      .endJunction()
+		    .and()
+		      .ilike("firstname", "%" + query + "%")
+		      .endJunction()
+		    .and()
+		      .ilike("lastname", "%" + query + "%")
+		      .endJunction()
+		     .and()
+		       .ilike("skills", "%" + query + "%")
+		       .endJunction()
+		     .and()
+		       .ilike("location", "%" + query + "%")
+		       .endJunction()
+		    .findPagedList(page, pageSize);
 	}
 
 	public String toString() {
@@ -76,6 +95,7 @@ public class Member extends Model {
 	}
 
 	public static Member createInstance(MemberSignupForm signupForm) {
+		// TODO: ADD DATE
 		Member newMember = new Member(signupForm.firstname, signupForm.lastname, signupForm.email, signupForm.username,
 			signupForm.password, "", signupForm.level);
 		newMember.save();

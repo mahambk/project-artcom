@@ -3,6 +3,7 @@ package controllers;
 import play.mvc.*;
 import play.data.Form;
 import models.Member;
+import models.Post;
 import views.html.*;
 import views.forms.EditProfileForm;
 
@@ -30,6 +31,26 @@ public class Profile extends Controller {
     	} else {
     		return badRequest(home.render());
     	}
+    }
+
+    public Result viewPosts(String username) {
+        if (username != null && !username.isEmpty()) {
+            Member member = Member.findByUsername(username);
+                if(member != null) {
+                   return ok(memberPosts.render(Post.findPageByAuthor(0, 8, member.username), member));
+                }
+        }
+        return badRequest(home.render());
+    }
+
+    public Result viewPostPage(String username, int page) {
+        if (username != null && !username.isEmpty()) {
+            Member member = Member.findByUsername(username);
+                if(member != null) {
+                   return ok(memberPosts.render(Post.findPageByAuthor(page, 8, member.username), member));
+                }
+        }
+        return badRequest(home.render());
     }
 
     public Result editProfile() {

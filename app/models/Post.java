@@ -68,8 +68,8 @@ public class Post extends Model {
 		return find.where().ieq("category", category).findPagedList(page, pageSize);
 	}
 
-	public static List<Post> findByAuthor(String username) {
-		return find.where().eq("author_username", username).orderBy("dateTimePosted desc").findList();
+	public static PagedList<Post> findPageByAuthor(int page, int pageSize, String username) {
+		return find.where().eq("author_username", username).orderBy("dateTimePosted desc").findPagedList(page, pageSize);
 	}
 
 	public static Post findRecentByAuthor(String username, int no) {
@@ -87,25 +87,23 @@ public class Post extends Model {
 		return find.where().findList();
 	}
 
-	/*public static PagedList<Post> searchPosts(String query) {
-		Query q = Ebean.createQuery(Post.class);
-		q.where().disjunction()
-		    .add(Expr.eq("varName1",value).eq("varName2",value))
-		    .add(Expr.eq("varName3",value3))
-		    .add(Expr.eq("varName4",value4).eq("varName5",value5))
-
-
-
-		List<Post> listA = find.where().ilike("title", query).findList();
-		List<Post> listB = find.where().ilike("subtitle", query).findList();
-		List<Post> combinedList = new List<Post>();
-		combinedList.addAll(listA);
-		combinedList.addAll(listB);
-
-		PagedList<Post> = list.findPagedList(page, pageSize);
-
-		return 
-	}/*
+	public static PagedList<Post> findSearchPage(int page, int pageSize, String query) {
+		return find.where()
+		  .or()
+		    .and()
+		      .ilike("title", "%" + query + "%")
+		      .endJunction()
+		    .and()
+		      .ilike("category", "%" + query + "%")
+		      .endJunction()
+		    .and()
+		      .ilike("subtitle", "%" + query + "%")
+		      .endJunction()
+		    .and()
+		      .ilike("tags", "%" + query + "%")
+		      .endJunction()
+		    .findPagedList(page, pageSize);
+	}
 	
 
 	public String getDatePosted() {

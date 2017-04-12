@@ -1,42 +1,70 @@
-@templates.main("Community - Scrapbook") {
+@(currentPage: com.avaje.ebean.PagedList[Member], query: String)
+@templates.main("Community - Scrapbook", "searchOn") {
     <div class="row top-space">
       <div class="large-8 large-centered columns">
          <h3>Scrapbook's Community</h3>
-         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, asperiores, voluptas, veniam commodi impedit tenetur dolores cumque facere explicabo esse quaerat veritatis laboriosam eius modi amet maxime non officia nemo!</p>
-      </div>
-    </div>
+         @helper.form(routes.Community.searchMembers()) {
+          <input type="text" name="query" placeholder="Look up by name or skill">
+          }
 
-    <div class="row top-space">
-      <div class="large-10 large-centered columns">
-        <h4>New Members Hall</h4>
-        <div class="row small-up-2 medium-up-4 large-up-5 text-center top-space">
-          <div class="column">
-            <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-            <h6><a href="#">Name</a><h6>
-          </div>
-          <div class="column">
-            <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-            <h6><a href="#">Name</a><h6>
-          </div> 
-          <div class="column">
-            <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-            <h6><a href="#">Name</a><h6>
-          </div>      
-          <div class="column">
-            <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-            <h6><a href="#">Name</a><h6>
-          </div> 
-          <div class="column">
-            <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-            <h6><a href="#">Name</a><h6>
-          </div>     
-        </div>
+
       </div>
     </div>
 
     <div class="row top-space">
       <div class="large-10 large-centered columns">
         <h4>Discover inspiring novice and skilled artists</h4>
+
+        @if(currentPage.getTotalRowCount() == 0) {
+        <p>No results for " @query "</p>
+        }
+
+        <!-- Dynamic entry -->
+        @for(member <- currentPage.getList){
+        <div class="row top-space">
+          <div class="large-2 columns">
+            <img src="@routes.Assets.versioned(member.profilePic)" class="thumbnail" alt="">
+          </div>
+          <div class="large-2 columns">
+            <h6><a href="@routes.Profile.index(member.username)">@member.username</a><h6>
+          </div>
+
+          <div class="large-2 columns">
+            @defining(Post.findRecentByAuthor(member.username, 0)) { post =>
+            @if(post != null){
+            <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+            }
+            }
+          </div>
+
+          <div class="large-2 columns">
+            @defining(Post.findRecentByAuthor(member.username, 1)) { post =>
+            @if(post != null){
+            <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+            }
+            }
+          </div>
+
+          <div class="large-2 columns">
+            @defining(Post.findRecentByAuthor(member.username, 2)) { post =>
+            @if(post != null){
+            <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+            }
+            }
+          </div>
+
+          <div class="large-2 columns">
+            @defining(Post.findRecentByAuthor(member.username, 3)) { post =>
+            @if(post != null){
+            <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+            }
+            }
+          </div>
+
+        </div> 
+        }
+
+        <!-- Example entry -->
         <div class="row top-space">
           <div class="large-2 columns">
             <img src="http://placehold.it/100x100" class="thumbnail" alt="">
@@ -57,46 +85,25 @@
             <img src="http://placehold.it/100x100" class="thumbnail" alt="">
           </div>     
         </div>
-        <div class="row top-space">
-          <div class="large-2 columns">
-            <img src="http://placehold.it/100x100" class="thumbnail" alt="">
+        
+        <!-- Pagination -->
+        <div class="row">
+          <div class="small-12 columns">
+            <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+              @if(currentPage.hasPrev){
+              <li class="pagination-previous"><a href="@routes.Community.listMembers(currentPage.getPageIndex - 1)" aria-label="Previous page">Previous</a></li>
+              } else {
+              <li class="pagination-previous disabled">Previous</li>
+              }
+              @if(currentPage.hasNext){
+              <li class="pagination-next"><a href="@routes.Community.listMembers(currentPage.getPageIndex + 1)" aria-label="Next page">Next</a></li>
+              } else {
+              <li class="pagination-next disabled">Next</li>
+              } 
+            </ul>
           </div>
-          <div class="large-2 columns">
-            <h6><a href="#">Name</a><h6>
-          </div>
-          <div class="large-2 columns">
-            <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-          </div> 
-          <div class="large-2 columns">
-            <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-          </div>      
-          <div class="large-2 columns">
-            <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-          </div> 
-          <div class="large-2 columns">
-            <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-          </div>     
         </div>
-        <div class="row top-space">
-          <div class="large-2 columns">
-            <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-          </div>
-          <div class="large-2 columns">
-            <h6><a href="#">Name</a><h6>
-          </div>
-          <div class="large-2 columns">
-            <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-          </div> 
-          <div class="large-2 columns">
-            <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-          </div>      
-          <div class="large-2 columns">
-            <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-          </div> 
-          <div class="large-2 columns">
-            <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-          </div>     
-        </div>
+
       </div>
     </div>
 }

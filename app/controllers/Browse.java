@@ -3,6 +3,9 @@ package controllers;
 import play.mvc.*;
 import models.Post;
 import views.html.*;
+import play.data.Form;
+import views.forms.SearchForm;
+
 
 /**
  */
@@ -22,17 +25,22 @@ public class Browse extends Controller {
         return ok(browse.render(category));
     }
 
-    /*public Result searchPosts() {
-
+    public Result searchPosts() {
+        Form<SearchForm> form = Form.form(SearchForm.class).bindFromRequest();
+        String query = form.get().query;
+        return ok(postSearchResults.render(Post.findSearchPage(0, 90, query), query));
     }
 
-    public Result listSearchResults() {
+    public Result getSearchResultPage(int page, String query){
+        return ok(postSearchResults.render(Post.findSearchPage(page, 90, query), query));
+    }
+
+    /*public Result listSearchResults() {
 
     }*/
 
     public Result discover() {
         return TODO;
     }
-
 
 }
