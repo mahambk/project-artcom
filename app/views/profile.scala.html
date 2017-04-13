@@ -1,7 +1,7 @@
 @(member: Member)
 @templates.main("Profile", "searchOn") {
   <div class="row top-space">
-    <div class="small-3 columns text-center profile">
+    <div class="small-12 large-3 columns text-center profile">
 
       @if(Application.memberLoggedIn(member)) {
       <div class="row align-right">
@@ -13,16 +13,12 @@
 
       <img src="@{routes.Assets.versioned(member.profilePic)}" class="thumbnail text-center profile-image" alt="">
       <h5 class="name">@member.firstname @member.lastname</h5>
-      <h6 class="username">@member.username</h6>
+      <h6 class="username">&#64;@member.username</h6>
       <span class="label level">@member.level</span>
       <br>
       <br>
       <h6>Based in @member.location</h6>
 
-      <div class="button-group top-space">
-        <button class="button">Follow</button>
-        <button class="secondary button">Send Message</button>
-      </div>
       
       @if(Application.memberLoggedIn(member)) {
       <hr>
@@ -53,12 +49,12 @@
       }
 
     </div>
-    <div class="small-9 columns">
+    <div class="small-12 large-9 columns">
       
       <div class="small-11 large-centered columns">
         <div class="row">
           <div class="small-8 columns">
-            <h5>Recent Posts:</h5>
+            <h5>Recent Posts</h5>
           </div>
           <div class="small-4 columns">
             @if(Application.memberLoggedIn(member)) {
@@ -66,7 +62,9 @@
             }
           </div>
         </div>
-
+        @if(!Post.memberHasPosts(member)){
+        <p class="minor-text">@member.username hasn't posted anything yet.</p>
+        } else {
         <div class="row">
           <div class="small-6 columns">
             <!-- large image here of size 2n x 2n -->
@@ -143,64 +141,12 @@
           </div>
         </div>
 
-        <div class="column row text-center">
-          <a href="@routes.Profile.viewPosts(member.username)"><button class="primary button">Show all posts</button></a>
+        <div class="row">
+          <div class="small-6 small-centered large-3 large-centered columns">
+          <a href="@routes.Profile.viewPosts(member.username)"><button class="secondary button expanded">Show all posts</button></a>
         </div>
 
-        <hr>
-
-        <h5>@member.username's Projects:</h5>
-        <div class="row collection top-space">
-          <h5>Botanical Art</h5>
-          <h6>collaborative project with <b>ideallipe</b></h6>
-          <hr>
-          <div class="row small-up-1 medium-up-2 large-up-4">
-            <div class="column">
-              <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-            </div>
-            <div class="column">
-              <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-            </div> 
-            <div class="column">
-              <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-            </div>
-          </div>
-        </div>
-        <hr>
-        <h5>@member.username's Collections:</h5>
-        <div class="row collection top-space">
-          <h5>Botanical Art</h5>
-          <hr>
-          <div class="row small-up-1 medium-up-2 large-up-4">
-            <div class="column">
-              <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-            </div>
-            <div class="column">
-              <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-            </div> 
-            <div class="column">
-              <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-            </div>
-          </div>
-        </div>
-
-        <div class="row collection top-space">
-          <h5>Mountains and valleys photoshoot</h5>
-          <hr>
-          <div class="row small-up-1 medium-up-2 large-up-4">
-            <div class="column">
-              <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-            </div>
-            <div class="column">
-              <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-            </div> 
-            <div class="column">
-              <img src="http://placehold.it/100x100" class="thumbnail" alt="">
-            </div>
-          </div>
-        </div>
-        <hr>
-        
+        }
 
         </div>
       </div>

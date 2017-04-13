@@ -1076,10 +1076,10 @@ select {
       background-color: #6B8BC5;
       color: #FFFFFF; }
   .button.secondary {
-    background-color: #E6D5A2;
+    background-color: #dfcdc2;
     color: #FFFFFF; }
     .button.secondary:hover, .button.secondary:focus {
-      background-color: #DFC77D;
+      background-color: #c3b3aa;
       color: #FFFFFF; }
   .button.alert {
     background-color: #CE373A;
@@ -1303,10 +1303,10 @@ select {
       background-color: #6B8BC5;
       color: #ffffff; }
   .button-group.secondary .button {
-    background-color: #FFFFFF;
-    color: #0a0a0a; }
+    background-color: #dfcdc2;
+    color: #ffffff; }
     .button-group.secondary .button:hover, .button-group.secondary .button:focus {
-      background-color: #cccccc;
+      background-color: #c3b3aa;
       color: #0a0a0a; }
   .button-group.alert .button {
     background-color: #CE373A;

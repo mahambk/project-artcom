@@ -1,5 +1,7 @@
 @(currentPage: com.avaje.ebean.PagedList[Post], currentCateg: String)
-@templates.main("Scrapbook - Browse", "searchOn") {
+@import views.html.templates._
+
+@templates.main("Scrapbook - Browse", "searchOff") {
     <div class="row top-space">
       <div class="large-8 columns">
         <h4>Browse posts by category</h4>
@@ -15,8 +17,7 @@
       <div class="large-4 columns">
       <ul class="menu">
         @helper.form(routes.Browse.searchPosts()) {
-        <li><input type="text" name="query" placeholder="search posts"></li>
-        <li><button type="submit" value="Submit" class="button">Search</button></li>
+        <li><input type="text" name="query" placeholder="Search artworks"></li>
         }
       </ul>
       </div>
@@ -31,22 +32,7 @@
 
           <!--Dynamic Thumbnail-->
           @for(p <- currentPage.getList){
-          <div class="column">
-            <div class="post-thumb-image">
-              <a href="@routes.Posts.viewPost(p.id)"><img src="@{routes.Assets.versioned(p.imageFile)}" class="thumbnail" alt=""></a>
-            </div>
-            <div class="post-thumb-info">
-              <p>@p.title</p>
-              <p>by <a href="@routes.Profile.index(p.author.username)">@p.author.username</a></p>
-              <p>
-              @if(!p.tags.isEmpty()) {
-              @for(t <- p.tags.split(",")) {
-              #<a href="@routes.Posts.viewPost(p.id)">@t &nbsp;
-              }
-              }
-              </p>
-            </div>
-          </div>
+          @postThumbnail(p)
           }
         
         </div>

@@ -120,28 +120,31 @@ public class Posts extends Controller {
     }
 
      public Result sendComment(int postId) {
-        Form<Comment> cmntForm = Form.form(Comment.class).bindFromRequest();
-        Post post = Post.findById(postId);
-        if (cmntForm.hasErrors()) {
-            flash("error", "Illegal characters.");
-            return ok(viewPost.render(post));
-        } else {
-            flash("success", "Form parsed with no errors.");
-            Comment cmnt = cmntForm.get();
-            //Member member = Member.findByUsername(session().get("loggedIn"));
-            Member member = Member.findByUsername("snowwhite");
-            cmnt.author = member;
-            cmnt.post = post;
-            cmnt.save();
-            return redirect(routes.Posts.viewPostCommentArea(postId));
+        if(Application.isLoggedIn()){
+            Form<Comment> cmntForm = Form.form(Comment.class).bindFromRequest();
+            Post post = Post.findById(postId);
+            if (cmntForm.hasErrors()) {
+                flash("error", "Illegal characters.");
+                return ok(viewPost.render(post));
+            } else {
+                flash("success", "Form parsed with no errors.");
+                Comment cmnt = cmntForm.get();
+                Member member = Member.findByUsername(session().get("loggedIn"));
+                cmnt.author = member;
+                cmnt.post = post;
+                cmnt.save();
+                return redirect(routes.Posts.viewPostCommentArea(postId));
+            }
         }
+        return redirect(routes.Application.login());
      }
 
-     public static boolean canDeleteComment(int cmntId) {
+     public static boolean canDeleteComment(int cmntId, int postId) {
         if(Application.isLoggedIn()){
             Comment comment = Comment.findById(cmntId);
+            Post post = Post.findById(postId);
             String cmntAuthor = comment.author.username;
-            String postAuthor = comment.post.author.username;
+            String postAuthor = post.author.username;
             String currentUser = session().get("loggedIn");
             if(currentUser.equals(cmntAuthor) || currentUser.equals(postAuthor)) {
                 return true;
@@ -150,52 +153,58 @@ public class Posts extends Controller {
         return false;
      }
 
-     public Result deleteComment(int cmntId) {
+     public Result deleteComment(int cmntId, int postId) {
         Comment comment = Comment.findById(cmntId);
-        if(Posts.canDeleteComment(cmntId)) {
+        if(Posts.canDeleteComment(cmntId, postId)) {
              comment.delete();
          }
          return redirect(routes.Posts.viewPostCommentArea(comment.post.id));
      }
 
     public Result sendFeedback(int postId) {
-        Form<Feedback> fdbkForm = Form.form(Feedback.class).bindFromRequest();
-        Post post = Post.findById(postId);
-        if (fdbkForm.hasErrors() || post.feedbackEnabled == false) {
-            flash("error", "Illegal characters.");
-            return ok(viewPost.render(post));
-        } else {
-            flash("success", "Form parsed with no errors.");
-            Feedback fdbk = fdbkForm.get();
-            Member member = Member.findByUsername(session().get("loggedIn"));
-            fdbk.author = member;
-            fdbk.post = post;
-
-            MultipartFormData<File> body = request().body().asMultipartFormData();
-            FilePart<File> image = body.getFile("image");
-            if (image != null) {
-                fdbk.imageAttached = true;
-                String fileName = image.getFilename();
-                String contentType = image.getContentType();
-                File imageFile = image.getFile();
-                java.nio.file.Path currentRelativePath = Paths.get("");
-                String relativePath = currentRelativePath.toAbsolutePath().toString();
-                String filePath = relativePath + "/public/images/feedback-images/";
-                imageFile.renameTo(new File(filePath, fileName));
-                fdbk.imageFile = "images/feedback-images/" + fileName;
+        if(Application.isLoggedIn()){
+            Form<Feedback> fdbkForm = Form.form(Feedback.class).bindFromRequest();
+            Post post = Post.findById(postId);
+            if (fdbkForm.hasErrors() || post.feedbackEnabled == false) {
+                flash("error", "Illegal characters.");
+                return ok(viewPost.render(post));
             } else {
-                fdbk.imageAttached = false;
+                flash("success", "Form parsed with no errors.");
+                Feedback fdbk = fdbkForm.get();
+                Member member = Member.findByUsername(session().get("loggedIn"));
+                fdbk.author = member;
+                fdbk.post = post;
+
+                MultipartFormData<File> body = request().body().asMultipartFormData();
+                FilePart<File> image = body.getFile("image");
+                if (image != null) {
+                    String fileName = image.getFilename();
+                    String contentType = image.getContentType();
+                    File imageFile = image.getFile();
+                    if (fileName != null && !fileName.equals("")) {
+                        fdbk.imageAttached = true;
+                        java.nio.file.Path currentRelativePath = Paths.get("");
+                        String relativePath = currentRelativePath.toAbsolutePath().toString();
+                        String filePath = relativePath + "/public/images/feedback-images/";
+                        imageFile.renameTo(new File(filePath, fileName));
+                        fdbk.imageFile = "images/feedback-images/" + fileName;
+                    } else {
+                        fdbk.imageAttached = false;
+                    }
+                }
+                fdbk.save();
+                return redirect(routes.Posts.viewPostFeedbackArea(postId));
             }
-            fdbk.save();
-            return redirect(routes.Posts.viewPostFeedbackArea(postId));
         }
+        return redirect(routes.Application.login());
      }
 
-    public static boolean canDeleteFeedback(int fdbkId) {
+    public static boolean canDeleteFeedback(int fdbkId, int postId) {
        if(Application.isLoggedIn()){
            Feedback feedback = Feedback.findById(fdbkId);
+           Post post = Post.findById(postId);
            String fdbkAuthor = feedback.author.username;
-           String postAuthor = feedback.post.author.username;
+           String postAuthor = post.author.username;
            String currentUser = session().get("loggedIn");
            if(currentUser.equals(fdbkAuthor) || currentUser.equals(postAuthor)) {
                return true;
@@ -204,9 +213,9 @@ public class Posts extends Controller {
        return false;
     }
 
-    public Result deleteFeedback(int fdbkId) {
+    public Result deleteFeedback(int fdbkId, int postId) {
        Feedback feedback = Feedback.findById(fdbkId);
-       if(Posts.canDeleteFeedback(fdbkId)) {
+       if(Posts.canDeleteFeedback(fdbkId, postId)) {
             feedback.delete();
         }
         return redirect(routes.Posts.viewPostFeedbackArea(feedback.post.id));

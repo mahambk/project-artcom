@@ -37,12 +37,12 @@ public class Post extends Model {
 	public static Find<Integer,Post> find = new Find<Integer,Post>(){};
 
 	public Post(String title, String subtitle, String description,
-		String tags, String postType, String category, boolean feedbackEnabled) {
+		String tags, String category, boolean feedbackEnabled) {
 		this.title = title;
 		this.subtitle = subtitle;
 		this.description = description;
 		this.tags = tags;
-		this.postType = postType;
+		//this.postType = postType;
 		this.category = category;
 		this.feedbackEnabled = feedbackEnabled;
 	}
@@ -87,6 +87,10 @@ public class Post extends Model {
 		return find.where().findList();
 	}
 
+	public static List<Post> findRecent(int maxRows) {
+		return find.where().orderBy("dateTimePosted desc").setMaxRows(maxRows).findList();
+	}
+
 	public static PagedList<Post> findSearchPage(int page, int pageSize, String query) {
 		return find.where()
 		  .or()
@@ -102,7 +106,18 @@ public class Post extends Model {
 		    .and()
 		      .ilike("tags", "%" + query + "%")
 		      .endJunction()
+		    .and()
+		      .ilike("author_username", "%" + query + "%")
+		      .endJunction()
 		    .findPagedList(page, pageSize);
+	}
+
+	public static boolean memberHasPosts(Member member) {
+		List<Post> list = find.where().eq("author_username", member.username).findList();
+		if(list.size() > 0) {
+			return true;
+		}
+		return false;
 	}
 	
 

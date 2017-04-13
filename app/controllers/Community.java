@@ -14,11 +14,11 @@ public class Community extends Controller {
     /**
      */
     public Result index() {
-        return ok(community.render(Member.findAllPagedList(0, 4), ""));
+        return ok(community.render(Member.findAllPagedList(0, 10), ""));
     }
 
     public Result listMembers(int page) {
-        return ok(community.render(Member.findAllPagedList(page, 4), ""));
+        return ok(community.render(Member.findAllPagedList(page, 10), ""));
     }
 
     public Result searchMembers() {

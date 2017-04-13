@@ -18,7 +18,7 @@ public class Browse extends Controller {
     }
 
     public Result list(int page, String category){
-        return ok(browsePage.render(Post.findPageList(page, 8, category), category));
+        return ok(browsePage.render(Post.findPageList(page, 24, category), category));
     }
 
     public Result byCategory(String category) {
@@ -28,11 +28,11 @@ public class Browse extends Controller {
     public Result searchPosts() {
         Form<SearchForm> form = Form.form(SearchForm.class).bindFromRequest();
         String query = form.get().query;
-        return ok(postSearchResults.render(Post.findSearchPage(0, 90, query), query));
+        return ok(postSearchResults.render(Post.findSearchPage(0, 24, query), query));
     }
 
     public Result getSearchResultPage(int page, String query){
-        return ok(postSearchResults.render(Post.findSearchPage(page, 90, query), query));
+        return ok(postSearchResults.render(Post.findSearchPage(page, 24, query), query));
     }
 
     /*public Result listSearchResults() {

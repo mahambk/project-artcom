@@ -45,9 +45,9 @@ GET 	/post/:postId				controllers.Posts.viewPost(postId: Integer)
 GET 	/post/:postId#comments		controllers.Posts.viewPostCommentArea(postId: Integer)
 GET 	/post/:postId#feedback		controllers.Posts.viewPostFeedbackArea(postId: Integer)
 POST 	/post/sendComment			controllers.Posts.sendComment(postId: Integer)
-POST 	/post/deleteComment 		controllers.Posts.deleteComment(cmntId: Integer)
+POST 	/post/deleteComment 		controllers.Posts.deleteComment(cmntId: Integer, postId: Integer)
 POST 	/post/sendFeedback			controllers.Posts.sendFeedback(postId: Integer)
-POST 	/post/deleteFeedback 		controllers.Posts.deleteFeedback(fdbkId: Integer)
+POST 	/post/deleteFeedback 		controllers.Posts.deleteFeedback(fdbkId: Integer, postId: Integer)
 
 
 # Map static resources from the /public folder to the /assets URL path

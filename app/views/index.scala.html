@@ -1,3 +1,5 @@
+@import views.html.templates._
+
 @templates.main("Scrapbook Home", "searchOn") {
 
   @if(!Application.isLoggedIn()) {
@@ -8,11 +10,12 @@
        <p>An online art community that embraces amateur artists and hobbiests around the globe. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, asperiores, voluptas, veniam commodi impedit tenetur dolores cumque facere explicabo esse quaerat veritatis laboriosam eius modi amet maxime non officia nemo!</p>
     </div>-->
     <div class="row top-space">
-      <div class="large-10 columns">
-        <img src="@{routes.Assets.versioned("images/website/motto-white.png")}" id="motto" alt="">
+      <div class="small-10 small-centered medium-6 medium-offset-3 large-6 large-offset-3 columns text-center">
+        <img src="@{routes.Assets.versioned("images/website/motto-white.png")}" alt="">
+        
       </div>
-      <div class="large-2 columns">
-        <button class="secondary button">Join now</button>
+      <div class="small-2 medium-3 large-3 columns text-right">
+        <button class="button btn-white"><a href="@routes.Application.signup">Join now</a></button>
       </div>
     </div>
   </div>
@@ -23,24 +26,8 @@
       <div class="row small-up-2 medium-up-3 large-up-4 top-space">
 
         <!--Dynamic Thumbnail-->
-          @for(p <- Post.findAll()){
-          <div class="column">
-            <div class="post-thumb-image">
-              <a href="@routes.Posts.viewPost(p.id)"><img src="@{routes.Assets.versioned(p.imageFile)}" class="thumbnail" alt=""></a>
-            </div>
-            <div class="post-thumb-info">
-              <p>"@p.title"</p>
-              <b>by <a href="@routes.Profile.index(p.author.username)">@p.author.username</a></b>
-              <p></p>
-              <p>
-              @if(!p.tags.isEmpty()) {
-              @for(t <- p.tags.split(",")) {
-              #<a class="tags" href="@routes.Posts.viewPost(p.id)">@t &nbsp;</a>
-              }
-              }
-              </p>
-            </div>
-          </div>
+          @for(p <- Post.findRecent(8)){
+          @postThumbnail(p)
           }
 
       </div>

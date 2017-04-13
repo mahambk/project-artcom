@@ -1,20 +1,21 @@
 @(currentPage: com.avaje.ebean.PagedList[Post], query: String)
+@import views.html.templates._
+
 @templates.main("Scrapbook - Browse", "searchOff") {
     <div class="row top-space">
-      <div class="large-8 columns">
+      <div class="small-12 large-8 columns">
         @if(currentPage.getTotalRowCount() == 0) {
         <p>No artworks matching "@query"</p>
-        }
+        } else {
+        <h5>Results for <span class="tags">"@query"<span></h5>
+      }
         
       </div>
-      <div class="large-4 columns">
+      <div class="small-12 large-4 columns">
       <ul class="menu">
-        <li>
         @helper.form(routes.Browse.searchPosts()) {
-        <input type="text" name="query" value=@query>
-        }
-        </li>
-        <li><button type="button" class="button"><i class="fi-magnifying-glass"></i></button></li>
+        <li><input type="text" name="query" value="@query"></li>
+        } 
       </ul>
       </div>
     </div>
@@ -29,22 +30,7 @@
 
           <!--Dynamic Thumbnail-->
           @for(p <- currentPage.getList){
-          <div class="column">
-            <div class="post-thumb-image">
-              <a href="@routes.Posts.viewPost(p.id)"><img src="@{routes.Assets.versioned(p.imageFile)}" class="thumbnail" alt=""></a>
-            </div>
-            <div class="post-thumb-info">
-              <p>@p.title</p>
-              <p>by <a href="@routes.Profile.index(p.author.username)">@p.author.username</a></p>
-              <p>
-              @if(!p.tags.isEmpty()) {
-              @for(t <- p.tags.split(",")) {
-              #<a href="@routes.Posts.viewPost(p.id)">@t &nbsp;
-              }
-              }
-              </p>
-            </div>
-          </div>
+          @postThumbnail(p)
           }
         
         </div>

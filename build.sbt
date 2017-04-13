@@ -11,5 +11,6 @@ libraryDependencies ++= Seq(
   cache,
   javaWs,
   "org.avaje" % "ebean" % "2.8.1",
-  "javax.persistence" % "persistence-api" % "1.0.2"
+  "javax.persistence" % "persistence-api" % "1.0.2",
+  "com.amazonaws" % "aws-java-sdk" % "1.3.11"
 )

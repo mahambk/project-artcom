@@ -46,7 +46,7 @@ public class Member extends Model {
 		this.setDob(birthday, birthmonth, birthyear);
 		this.level = level;
 	}
-
+	
 	public static List<Member> findAll() {
 		return find.all();
 	}
