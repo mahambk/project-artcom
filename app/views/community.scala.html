@@ -1,86 +1,81 @@
 @(currentPage: com.avaje.ebean.PagedList[Member], query: String)
 @templates.main("Community - Scrapbook", "searchOn") {
-    <div class="row top-space">
-      <div class="large-8 large-centered columns">
-         <h3>Scrapbook's Community</h3>
-         @helper.form(routes.Community.searchMembers()) {
-          <input type="text" name="query" placeholder="Look up members by name or skill">
-          }
+<div class="row top-space">
+  <div class="large-8 large-centered columns">
+   <h3>Scrapbook's Community</h3>
+   @helper.form(routes.Community.searchMembers()) {
+   <input type="text" name="query" placeholder="Look up members by name or skill">
+ }
 
-      </div>
-    </div>
+</div>
+</div>
 
-    <div class="row top-space">
-      <div class="large-10 large-centered columns">
-        <h4>Discover inspiring novice and skilled artists</h4>
+<div class="row top-space">
+  <div class="large-10 large-centered columns">
+    <h4>Discover inspiring novice and skilled artists</h4>
 
-        @if(currentPage.getTotalRowCount() == 0) {
-        <p>No results for " @query "</p>
-        }
+    @if(currentPage.getTotalRowCount() == 0) {
+    <p>No results for " @query "</p>
+  }
 
-        <!-- Dynamic entry -->
-        @for(member <- currentPage.getList){
-        <div class="row top-space">
-          <div class="large-2 columns">
-            <img src="@member.profilePic" class="thumbnail" alt="">
-          </div>
-          <div class="large-2 columns">
-            <h6><a href="@routes.Profile.index(member.username)">@member.username</a><h6>
-          </div>
-
-          <div class="large-2 columns">
-            @defining(Post.findRecentByAuthor(member.username, 0)) { post =>
-            @if(post != null){
-            <a href="@routes.Posts.viewPost(post.id)"><img src="@post.getImageUrl()" class="thumbnail" alt=""></a>
-            }
-            }
-          </div>
-
-          <div class="large-2 columns">
-            @defining(Post.findRecentByAuthor(member.username, 1)) { post =>
-            @if(post != null){
-            <a href="@routes.Posts.viewPost(post.id)"><img src="@post.getImageUrl()" class="thumbnail" alt=""></a>
-            }
-            }
-          </div>
-
-          <div class="large-2 columns">
+  <!-- Dynamic entry -->
+  @for(member <- currentPage.getList){
+  <div class="row top-space">
+          <div class="row small-up-3 medium-up-6 large-up-6">
+            <div class="column column-block">
+              <img src="@member.profilePic" class="thumbnail" alt="">
+            </div>
+            <div class="column column-block">
+              <h6 class="min-padding"><a href="@routes.Profile.index(member.username)">@member.username</a></h6>
+              <p class="small-text label level">@member.level</p>
+              <p class="small-text">@member.skills</p>
+            </div>
+            <div class="column column-block">
+            </div>
+            <div class="column column-block">
+              @defining(Post.findRecentByAuthor(member.username, 0)) { post =>
+              @if(post != null){
+              <a href="@routes.Posts.viewPost(post.id)"><img src="@post.getImageUrl()" class="thumbnail" alt=""></a>
+              }
+               }
+            </div>
+            <div class="column column-block">
+              @defining(Post.findRecentByAuthor(member.username, 1)) { post =>
+              @if(post != null){
+              <a href="@routes.Posts.viewPost(post.id)"><img src="@post.getImageUrl()" class="thumbnail" alt=""></a>
+              }
+              }
+            </div>
+            <div class="column column-block">
             @defining(Post.findRecentByAuthor(member.username, 2)) { post =>
             @if(post != null){
             <a href="@routes.Posts.viewPost(post.id)"><img src="@post.getImageUrl()" class="thumbnail" alt=""></a>
             }
             }
+            </div>
           </div>
+</div> 
+<hr>
+}
 
-          <div class="large-2 columns">
-            @defining(Post.findRecentByAuthor(member.username, 3)) { post =>
-            @if(post != null){
-            <a href="@routes.Posts.viewPost(post.id)"><img src="@post.getImageUrl()" class="thumbnail" alt=""></a>
-            }
-            }
-          </div>
+<!-- Pagination -->
+<div class="row">
+  <div class="small-12 columns">
+    <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+      @if(currentPage.hasPrev){
+      <li class="pagination-previous"><a href="@routes.Community.listMembers(currentPage.getPageIndex - 1)" aria-label="Previous page">Previous</a></li>
+    } else {
+    <li class="pagination-previous disabled">Previous</li>
+  }
+  @if(currentPage.hasNext){
+  <li class="pagination-next"><a href="@routes.Community.listMembers(currentPage.getPageIndex + 1)" aria-label="Next page">Next</a></li>
+} else {
+<li class="pagination-next disabled">Next</li>
+} 
+</ul>
+</div>
+</div>
 
-        </div> 
-        }
-        
-        <!-- Pagination -->
-        <div class="row">
-          <div class="small-12 columns">
-            <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-              @if(currentPage.hasPrev){
-              <li class="pagination-previous"><a href="@routes.Community.listMembers(currentPage.getPageIndex - 1)" aria-label="Previous page">Previous</a></li>
-              } else {
-              <li class="pagination-previous disabled">Previous</li>
-              }
-              @if(currentPage.hasNext){
-              <li class="pagination-next"><a href="@routes.Community.listMembers(currentPage.getPageIndex + 1)" aria-label="Next page">Next</a></li>
-              } else {
-              <li class="pagination-next disabled">Next</li>
-              } 
-            </ul>
-          </div>
-        </div>
-
-      </div>
-    </div>
+</div>
+</div>
 }

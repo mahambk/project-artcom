@@ -21,16 +21,7 @@
         <li class="menu-text"><a href="/"><img src="@{routes.Assets.versioned("images/website/logo.png")}" id="logo" alt="Scrapbook"></a></li>
         <li>
           <a href="@routes.Browse.list(0, "drawing")">Browse</a>
-          <!--<ul class="menu vertical">
-            <li><a href="#">Sketches</a></li>
-            <li><a href="#">Photography</a></li>
-            <li><a href="#">Paintings</a></li>
-            <li><a href="#">Illustrations</a></li>
-            <li><a href="#">Collage</a></li>
-            <li><a href="#">Crafts</a></li>
-          </ul>-->
         </li>
-        <!--<li><a href="@routes.Browse.discover">Discover</a></li>-->
         <li><a href="@routes.Community.index">Community</a></li>
         </ul>
       </div>
@@ -62,20 +53,12 @@
             </li>
           </ul>
         </li>
-          <!--<li>Welcome, @session().get("loggedIn") &nbsp;</li>
-          <li><a href="@routes.Profile.myProfile()">My Profile</a>
-          <li><button type="button" class="button"><a href="@routes.Application.logout">Logout</a></button>-->
           }
           
         </ul>
       </div>
     </div>
       @content
-      <!--<footer class="footer">
-        <div class="row">
-          <p>&copy Scrapbook 2016</p>
-        </div>
-      </footer>-->
       <script src="@routes.Assets.versioned("foundation/js/vendor/jquery.js")"></script>
       <script src="@routes.Assets.versioned("foundation/js/vendor/what-input.js")"></script>
       <script src="@routes.Assets.versioned("foundation/js/vendor/foundation.js")"></script>

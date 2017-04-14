@@ -22,6 +22,14 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: 'Raleway', sans-serif;
 }
 
+.small-text {
+    font-size: 0.7rem;
+}
+
+.min-padding {
+    margin-bottom: 0;
+}
+
 .tags {
 	font-family: 'Courier';
 }
@@ -54,15 +62,8 @@ form {
 	max-width: initial;
 }
 
-.collection {
-	margin: 2rem 0 1rem 0;
-	padding: 0.75rem;
-	border: 1px solid #000000;
-	border-radius: 5px;
-	background-color: #FFFCF4;
-	position: relative;
-	max-width: 75%;
-
+.member-list-entry {
+    background-color: #e5e0dd;
 }
 
 .edit-btn {
@@ -138,6 +139,7 @@ form {
 	width: 75px;
 }
 
+
 .post-image {
 	margin-top: 1.5rem;
 }
@@ -176,6 +178,7 @@ form {
     background: #e5e5e5;
     color: #0a0a0a;
     margin-top: 0.5rem;
+    font-family: 'Courier';
 }
 
 .textarea-desc {
