@@ -28,6 +28,8 @@ public class Post extends Model {
 	public String category;
 	public String imageFile;
 
+	public String imageUrl;
+
 	public Date dateTimePosted;
 
 	public Date dateTimeLastEdited;
@@ -120,6 +122,10 @@ public class Post extends Model {
 		return false;
 	}
 	
+	public String getImageUrl() {
+		return "https://s3.eu-west-2.amazonaws.com/scrapbookartcom/post-images/"
+					+ this.id + "/" + this.imageFile;
+	}
 
 	public String getDatePosted() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMMM yyyy");

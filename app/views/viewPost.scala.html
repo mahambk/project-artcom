@@ -27,7 +27,7 @@
                 <div class="small-10 small-offset-1 medium-10 medium-offset-2 columns">
                     <h5>"@post.title"</h5>
                     <h6>@post.subtitle</h6>
-                    <img src="@{routes.Assets.versioned(post.imageFile)}" class="post-image thumbnail" alt="">
+                    <img src="@post.getImageUrl()" class="post-image thumbnail" alt="">
                     <p class="post-desc">@post.description</p>
                     @if(!post.tags.isEmpty()){
                     <p>Tagged: 

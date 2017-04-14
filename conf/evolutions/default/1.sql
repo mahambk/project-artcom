@@ -49,6 +49,7 @@ create table post (
   tags                          varchar(255),
   category                      varchar(255),
   image_file                    varchar(255),
+  image_url                     varchar(255),
   date_time_posted              timestamp,
   date_time_last_edited         timestamp,
   feedback_enabled              boolean,
