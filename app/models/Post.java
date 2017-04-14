@@ -29,8 +29,6 @@ public class Post extends Model {
 	public String category;
 	public String imageFile;
 
-	public String imageUrl;
-
 	public Date dateTimePosted;
 
 	public Date dateTimeLastEdited;

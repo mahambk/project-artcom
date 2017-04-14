@@ -76,13 +76,11 @@ public class Profile extends Controller {
     public Result submitChanges() {
         Member member = Member.findByUsername(session().get("loggedIn"));
         Form<EditProfile> profileForm = Form.form(EditProfile.class).bindFromRequest();
-
+        String newProfilePicUrl = "";
         if (profileForm.hasErrors()) {
             flash("error", "Please complete above fields.");
-
             return ok(editProfile.render(profileForm, member));
         } else {
-            
             // Profile image upload
             MultipartFormData<File> body = request().body().asMultipartFormData();
             FilePart<File> imageFilePart = body.getFile("image");
@@ -90,21 +88,12 @@ public class Profile extends Controller {
                 String fileName = imageFilePart.getFilename();
                 String contentType = imageFilePart.getContentType();
                 File imageFile = imageFilePart.getFile();
-
                 if (fileName != null && !fileName.equals("")) {
-                    //member.profilePic = fileName;
-                    
                     S3FileUpload.uploadFileToS3(imageFile, "profile-images", member.username, fileName);
-                    String newProfilePicUrl = S3FileUpload.getUrl("profile-images", member.username, fileName);
-
-                    member.updateInfo(profileForm.get(), newProfilePicUrl);
-                } else {
-                    member.updateInfo(profileForm.get(), null);
+                    newProfilePicUrl = S3FileUpload.getUrl("profile-images", member.username, fileName);
                 }
-            } else {
-                member.updateInfo(profileForm.get(), null);
             }
-
+            member.updateInfo(profileForm.get(), newProfilePicUrl);
             return ok(profile.render(member));
         }
     }
@@ -116,6 +105,4 @@ public class Profile extends Controller {
         }
         return redirect(routes.Profile.editProfile());
     }
-
-
 }

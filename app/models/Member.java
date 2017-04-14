@@ -155,7 +155,7 @@ public class Member extends Model {
 		this.location = profileForm.location;
 		this.skills = profileForm.skills;
 		this.bio = profileForm.bio;
-		if (newProfilePicUrl != null) {
+		if (!newProfilePicUrl.equals("")) {
 			this.profilePic = newProfilePicUrl;
 		}
 		this.save();

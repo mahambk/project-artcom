@@ -49,25 +49,10 @@ create table post (
   tags                          varchar(255),
   category                      varchar(255),
   image_file                    varchar(255),
-  image_url                     varchar(255),
   date_time_posted              timestamp,
   date_time_last_edited         timestamp,
   feedback_enabled              boolean,
   constraint pk_post primary key (id)
-);
-
-create table project (
-  id                            serial not null,
-  project_title                 varchar(255),
-  description                   varchar(255),
-  date_created                  timestamp,
-  constraint pk_project primary key (id)
-);
-
-create table project_creators (
-  project_id                    integer not null,
-  creator_username              varchar(255) not null,
-  constraint pk_project_creators primary key (project_id,creator_username)
 );
 
 alter table comment add constraint fk_comment_author_username foreign key (author_username) references member (username) on delete restrict on update restrict;
@@ -84,12 +69,6 @@ create index ix_feedback_post_id on feedback (post_id);
 
 alter table post add constraint fk_post_author_username foreign key (author_username) references member (username) on delete restrict on update restrict;
 create index ix_post_author_username on post (author_username);
-
-alter table project_creators add constraint fk_project_creators_project foreign key (project_id) references project (id) on delete restrict on update restrict;
-create index ix_project_creators_project on project_creators (project_id);
-
-alter table project_creators add constraint fk_project_creators_member foreign key (creator_username) references member (username) on delete restrict on update restrict;
-create index ix_project_creators_member on project_creators (creator_username);
 
 
 # --- !Downs
@@ -109,12 +88,6 @@ drop index if exists ix_feedback_post_id;
 alter table if exists post drop constraint if exists fk_post_author_username;
 drop index if exists ix_post_author_username;
 
-alter table if exists project_creators drop constraint if exists fk_project_creators_project;
-drop index if exists ix_project_creators_project;
-
-alter table if exists project_creators drop constraint if exists fk_project_creators_member;
-drop index if exists ix_project_creators_member;
-
 drop table if exists comment cascade;
 
 drop table if exists feedback cascade;
@@ -122,8 +95,4 @@ drop table if exists feedback cascade;
 drop table if exists member cascade;
 
 drop table if exists post cascade;
-
-drop table if exists project cascade;
-
-drop table if exists project_creators cascade;
 

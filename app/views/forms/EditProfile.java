@@ -15,7 +15,6 @@ public class EditProfile {
 	public String lastname = "";
 	public String email = "";
 	public String level = "";
-
 	public String location = "";
 	public String skills = "";
 	public String bio = "";
@@ -63,8 +62,7 @@ public class EditProfile {
 			errors.add(new ValidationError("email", "Please enter a valid email"));
 		}
 
-
-		return null;
+		return errors;
 	}
 
 }
