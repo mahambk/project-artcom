@@ -13,9 +13,7 @@ POST	/login						controllers.Application.submitLogin()
 GET 	/logout						controllers.Application.logout()
 
 # Browse and search posts
-GET 	/browse/					controllers.Browse.index()
 GET 	/browse/:category/:page		controllers.Browse.list(page: Integer, category: String)
-GET 	/browse/:category 			controllers.Browse.byCategory(category: String)
 POST 	/searchposts 				controllers.Browse.searchPosts()
 GET 	/searchposts/:query/:page 	controllers.Browse.getSearchResultPage(page: Integer, query: String)
 GET 	/discover					controllers.Browse.discover()
@@ -28,6 +26,7 @@ POST 	/searchmembers				controllers.Community.searchMembers()
 
 # Profile
 GET 	/profile/edit				controllers.Profile.editProfile()
+GET 	/profile/edit/resetPic		controllers.Profile.resetProfilePic()
 POST 	/profile/edit/submit 		controllers.Profile.submitChanges()
 GET 	/profile/:username			controllers.Profile.index(username: String)
 GET 	/profile					controllers.Profile.myProfile()

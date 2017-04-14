@@ -87,7 +87,7 @@ public class Application extends Controller {
     		flash("success", "Form parsed with no errors.");
             session().clear();
             session("loggedIn", signupForm.get().username);
-            return redirect(routes.Application.index());
+            return redirect(routes.Profile.myProfile());
     		/* For testing
             String confirmation = "Form parsed successfully. Member instance created: " + member.toString();
     		return ok(signup.render(signupForm, confirmation));*/

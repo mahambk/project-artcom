@@ -6,18 +6,20 @@
       @if(Application.memberLoggedIn(member)) {
       <div class="row align-right">
         <div class="small-3 columns small-offset-9">
-          <a href="@routes.Profile.editProfile()"><button class="primary button edit-btn">✎</button></a>
+          <a href="@routes.Profile.editProfile()"><button class="secondary button edit-btn">✎</button></a>
         </div>
       </div>
       }
 
-      <img src="@{routes.Assets.versioned(member.profilePic)}" class="thumbnail text-center profile-image" alt="">
+      <img src="@member.profilePic" class="thumbnail text-center profile-image" alt="">
       <h5 class="name">@member.firstname @member.lastname</h5>
       <h6 class="username">&#64;@member.username</h6>
       <span class="label level">@member.level</span>
       <br>
       <br>
+      @if(!member.location.isEmpty()){
       <h6>Based in @member.location</h6>
+      }
 
       
       @if(Application.memberLoggedIn(member)) {
@@ -58,94 +60,48 @@
           </div>
           <div class="small-4 columns">
             @if(Application.memberLoggedIn(member)) {
-            <a href="@routes.Posts.newPost()"><button class="primary button expanded">New post</button></a>
+            <a href="@routes.Posts.newPost()"><button class="primary button expanded"><i class="fi-plus"></i>&nbsp;&nbsp;New post</button></a>
             }
           </div>
         </div>
         @if(!Post.memberHasPosts(member)){
         <p class="minor-text">@member.username hasn't posted anything yet.</p>
         } else {
-        <div class="row">
-          <div class="small-6 columns">
+        <div class="row top-space">
+          <div class="small-12 large-6 columns">
             <!-- large image here of size 2n x 2n -->
               @defining(Post.findRecentByAuthor(member.username, 0)) { post =>
               @if(post != null){
-              <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+              <a href="@routes.Posts.viewPost(post.id)"><img src="@post.getImageUrl()" class="thumbnail" alt=""></a>
               }
               }
           </div>
-          <div class="small-6 columns">
-            <!-- right side grid of - 4 images of size n x n -->
-            <div class="row small-up-2">
+          <div class="small-12 large-4 large-offset-1 columns">
+            <div class="row small-up-1">
               <div class="column column-block">
                 @defining(Post.findRecentByAuthor(member.username, 1)) { post =>
                 @if(post != null){
-                <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+                <a href="@routes.Posts.viewPost(post.id)"><img src="@post.getImageUrl()" class="thumbnail" alt=""></a>
                 }
                 }
               </div>
               <div class="column column-block">
                 @defining(Post.findRecentByAuthor(member.username, 2)) { post =>
                 @if(post != null){
-                <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
-                }
-                }
-              </div>
-              <div class="column column-block">
-                @defining(Post.findRecentByAuthor(member.username, 3)) { post =>
-                @if(post != null){
-                <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
-                }
-                }
-              </div>
-              <div class="column column-block">
-                @defining(Post.findRecentByAuthor(member.username, 4)) { post =>
-                @if(post != null){
-                <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+                <a href="@routes.Posts.viewPost(post.id)"><img src="@post.getImageUrl()" class="thumbnail" alt=""></a>
                 }
                 }
               </div>
             </div>
           </div>
-        </div>
+          <div class="large-1 columns"></div>
 
-        <div class="row">
-          <!-- bottom grid of 4 images in a row of size n/2 x n/2 -->
-          <div class="small-3 columns">
-              @defining(Post.findRecentByAuthor(member.username, 5)) { post =>
-              @if(post != null){
-              <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
-              }
-              }
-          </div>
-          <div class="small-3 columns">
-              @defining(Post.findRecentByAuthor(member.username, 6)) { post =>
-              @if(post != null){
-              <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
-              }
-              }
-          </div>
-          <div class="small-3 columns">
-              @defining(Post.findRecentByAuthor(member.username, 7)) { post =>
-              @if(post != null){
-              <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
-              }
-              }
-          </div>
-          <div class="small-3 columns">
-              @defining(Post.findRecentByAuthor(member.username, 8)) { post =>
-              @if(post != null){
-              <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
-              }
-              }
-          </div>
-        </div>
-
+        @if(Post.memberPostCount(member) > 9){
         <div class="row">
           <div class="small-6 small-centered large-3 large-centered columns">
           <a href="@routes.Profile.viewPosts(member.username)"><button class="secondary button expanded">Show all posts</button></a>
         </div>
-
+        }
         }
 
         </div>

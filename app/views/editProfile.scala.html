@@ -1,4 +1,4 @@
-@(profileForm: Form[views.forms.EditProfileForm], member: Member)
+@(profileForm: Form[views.forms.EditProfile], member: Member)
 @templates.main("Edit Profile", "searchOff") {
 
 @helper.form(routes.Profile.submitChanges(), 'enctype -> "multipart/form-data") {
@@ -6,16 +6,14 @@
 		<div class="small-12 small-centered large-9 large-centered columns">
 			<h4>Edit Profile</h4>
 				<div class="row">
-					<div class="small-4 columns">
+					<div class="small-12 medium-4 large-4 columns">
 						<p>Profile image</p>
-						<img src="@{routes.Assets.versioned(member.profilePic)}" id = "profile-image" class="thumbnail profile-image" alt="">
+						<img src="@member.profilePic" id="target-image" class="thumbnail profile-image" alt="">
 						<input type="file" name="image" id="imageUpload" accept="image/*" onchange="displayImage(this);" class="show-for-sr">
-						<label for="imageUpload" class="button">Change image</label>
-						<a>Delete image</a><!--make ajax call-->
-
-						
+						<br><label for="imageUpload" class="button">Change image</label>
+						<p><a href="@routes.Profile.resetProfilePic()">Reset image</a></p>	
 					</div>
-					<div class="small-8 columns">
+					<div class="small-12 medium-8 large-8 columns">
 						<div class="row">
 							<div class="small-6 columns">
 								<label>First Name
@@ -62,8 +60,8 @@
 			
 
 			<div class="row">
-				<div class="small-5 small-offset-7 columns">
-					<button type="submit" value="Submit" class="button">Submit</button>
+				<div class="small-3 small-offset-9 large-2 large-offset-10 columns">
+					<button type="submit" value="Submit" class="button expanded">Submit</button>
 				</div>
 			</div>
 		</div>

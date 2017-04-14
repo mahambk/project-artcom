@@ -2,10 +2,15 @@ package controllers;
 
 import play.mvc.*;
 import play.data.Form;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.*;
+import java.io.File;
+import java.nio.file.*;
 import models.Member;
 import models.Post;
 import views.html.*;
-import views.forms.EditProfileForm;
+import views.forms.EditProfile;
+import utils.S3FileUpload;
 
 
 /**
@@ -21,8 +26,7 @@ public class Profile extends Controller {
         	       return ok(profile.render(member));
                 }
     	}
-    	//return badRequest(index.render());
-        return ok(login.render(username));
+    	return badRequest(index.render());
     }
 
     public Result myProfile() {
@@ -38,7 +42,7 @@ public class Profile extends Controller {
         if (username != null && !username.isEmpty()) {
             Member member = Member.findByUsername(username);
                 if(member != null) {
-                   return ok(memberPosts.render(Post.findPageByAuthor(0, 8, member.username), member));
+                   return ok(memberPosts.render(Post.findPageByAuthor(0, 12, member.username), member));
                 }
         }
         return badRequest(index.render());
@@ -48,7 +52,7 @@ public class Profile extends Controller {
         if (username != null && !username.isEmpty()) {
             Member member = Member.findByUsername(username);
                 if(member != null) {
-                   return ok(memberPosts.render(Post.findPageByAuthor(page, 8, member.username), member));
+                   return ok(memberPosts.render(Post.findPageByAuthor(page, 12, member.username), member));
                 }
         }
         return badRequest(index.render());
@@ -58,10 +62,10 @@ public class Profile extends Controller {
         if(Application.isLoggedIn()) {
             Member member = Member.findByUsername(session().get("loggedIn"));
 
-            EditProfileForm currentProfileInfo = new EditProfileForm(member.firstname, member.lastname,
+            EditProfile currentProfileInfo = new EditProfile(member.firstname, member.lastname,
             member.email, member.level, member.location, member.skills, member.bio);
 
-            Form<EditProfileForm> profileForm = Form.form(EditProfileForm.class).fill(currentProfileInfo);
+            Form<EditProfile> profileForm = Form.form(EditProfile.class).fill(currentProfileInfo);
 
             return ok(editProfile.render(profileForm, member));
         } else {
@@ -71,16 +75,46 @@ public class Profile extends Controller {
 
     public Result submitChanges() {
         Member member = Member.findByUsername(session().get("loggedIn"));
-        Form<EditProfileForm> profileForm = Form.form(EditProfileForm.class).bindFromRequest();
+        Form<EditProfile> profileForm = Form.form(EditProfile.class).bindFromRequest();
 
         if (profileForm.hasErrors()) {
             flash("error", "Please complete above fields.");
 
             return ok(editProfile.render(profileForm, member));
         } else {
-            member.updateInfo(profileForm.get());
+            
+            // Profile image upload
+            MultipartFormData<File> body = request().body().asMultipartFormData();
+            FilePart<File> imageFilePart = body.getFile("image");
+            if (imageFilePart != null) {
+                String fileName = imageFilePart.getFilename();
+                String contentType = imageFilePart.getContentType();
+                File imageFile = imageFilePart.getFile();
+
+                if (fileName != null && !fileName.equals("")) {
+                    //member.profilePic = fileName;
+                    
+                    S3FileUpload.uploadFileToS3(imageFile, "profile-images", member.username, fileName);
+                    String newProfilePicUrl = S3FileUpload.getUrl("profile-images", member.username, fileName);
+
+                    member.updateInfo(profileForm.get(), newProfilePicUrl);
+                } else {
+                    member.updateInfo(profileForm.get(), null);
+                }
+            } else {
+                member.updateInfo(profileForm.get(), null);
+            }
+
             return ok(profile.render(member));
         }
+    }
+
+    public Result resetProfilePic() {
+        if(Application.isLoggedIn()) {
+            Member member = Member.findByUsername(session().get("loggedIn"));
+            member.resetProfilePic();
+        }
+        return redirect(routes.Profile.editProfile());
     }
 
 

@@ -14,28 +14,20 @@
 			<input type="text" name="subtitle" placeholder="Post Subtitle" value="@postForm("subtitle").value">
 
 			<div class="row">
-				<div class="small-3 small-centered columns">
-					<!--<label for="imageUpload" class="button expanded">Upload Image</label>
-					<input type="file" name="imageFile" id="imageUpload" class="show-for-sr">-->
-					<input type="file" @if(postForm("imageFile").hasErrors) {class="is-invalid-input" aria-describedby="imageFileHelpText"} name="image" accept="image/*">
+				<div class="small-3 columns">
+					<input type="file" id="imageUpload" onchange="displayImage(this);" class="show-for-sr" @if(postForm("imageFile").hasErrors) {class="is-invalid-input" aria-describedby="imageFileHelpText"} name="image" accept="image/*">
+					<br><label for="imageUpload" class="button expanded">Choose Image</label><br>
 					@if(postForm("imageFile").hasErrors) {
 					<p class="help-text" id="imageFileHelpText"><span class="error-text">@{postForm("imageFile").error.map {error => error.message}}</span></p>
 					}
 				</div>
+				<div class="small-9 columns">
+					<img src="" id="target-image" alt="">
+				</div>
 			</div>
-
+			<br>
             <textarea name="description" rows="6" placeholder="Description">@postForm("description").value</textarea>
 			<input type="text" name="tags" id="tags" placeholder="Tags" value="@postForm("tags").value">
-
-			<!--<div class="row columns top-space">
-				<fieldset id="postTypeRadio">
-					<legend>Special Post Type</legend>
-					<input type="radio" class="radioType" name="postType" value="demo" id="radioTypeDemo" @if(postForm("postType").value.equals("demo")){ checked }><label for="radioTypeDemo">Artwork demo</label>
-					<input type="radio" class="radioType" name="postType" value="progress" id="radioTypeProgress" @if(postForm("postType").value.equals("progress")){ checked }><label for="radioTypeProgress">Work under progress</label>
-					<input type="radio" class="radioType" name="postType" value="sketch" id="radioTypeSketch" @if(postForm("postType").value.equals("sketch")){ checked }><label for="radioTypeSketch">Sketch</label>
-					<input type="radio" class="radioType" name="postType" value="none" id="radioTypeNone" @if(postForm("postType").value.equals("none")){ checked }><label for="radioTypeNone">No special type</label>
-				</fieldset>
-			</div>-->
 
 			<div class="row columns top-space">
 				<legend>Category</legend>

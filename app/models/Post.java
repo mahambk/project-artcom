@@ -8,6 +8,7 @@ import javax.persistence.*;
 //import views.forms
 import play.data.validation.ValidationError;
 import views.forms.EditPostForm;
+import utils.S3FileUpload;
 
 
 @Entity
@@ -115,16 +116,21 @@ public class Post extends Model {
 	}
 
 	public static boolean memberHasPosts(Member member) {
-		List<Post> list = find.where().eq("author_username", member.username).findList();
-		if(list.size() > 0) {
+		int postsNum = find.where().eq("author_username", member.username).findRowCount();
+		if(postsNum > 0) {
 			return true;
 		}
 		return false;
 	}
+
+	public static int memberPostCount(Member member) {
+		return find.where().eq("author_username", member.username).findRowCount();
+
+	}
 	
 	public String getImageUrl() {
-		return "https://s3.eu-west-2.amazonaws.com/scrapbookartcom/post-images/"
-					+ this.id + "/" + this.imageFile;
+		return S3FileUpload.getUrl("post-images", String.valueOf(this.id), this.imageFile);
+
 	}
 
 	public String getDatePosted() {
@@ -148,6 +154,11 @@ public class Post extends Model {
 	public void update() {
 		dateTimeLastEdited();
 		super.update();
+	}
+
+	@PreRemove
+	public void deleteImageFile() {
+		S3FileUpload.deleteFileFromS3("post-images", String.valueOf(this.id), this.imageFile);
 	}
 
 	@PrePersist

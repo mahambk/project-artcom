@@ -1,7 +1,7 @@
 @(p: Post)
 <div class="column">
   <div class="post-thumb-image">
-    <a href="@routes.Posts.viewPost(p.id)"><img src="@{routes.Assets.versioned(p.imageFile)}" class="thumbnail" alt=""></a>
+    <a href="@routes.Posts.viewPost(p.id)"><img src="@p.getImageUrl()" class="thumbnail" alt=""></a>
   </div>
   <div class="post-thumb-info">
     <p>"@p.title"</p>

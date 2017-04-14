@@ -13,16 +13,8 @@ public class Browse extends Controller {
 
     /**
      */
-    public Result index() {
-        return ok(browse.render("drawing"));
-    }
-
     public Result list(int page, String category){
         return ok(browsePage.render(Post.findPageList(page, 24, category), category));
-    }
-
-    public Result byCategory(String category) {
-        return ok(browse.render(category));
     }
 
     public Result searchPosts() {

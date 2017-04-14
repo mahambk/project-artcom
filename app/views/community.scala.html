@@ -22,7 +22,7 @@
         @for(member <- currentPage.getList){
         <div class="row top-space">
           <div class="large-2 columns">
-            <img src="@routes.Assets.versioned(member.profilePic)" class="thumbnail" alt="">
+            <img src="@member.profilePic" class="thumbnail" alt="">
           </div>
           <div class="large-2 columns">
             <h6><a href="@routes.Profile.index(member.username)">@member.username</a><h6>
@@ -31,7 +31,7 @@
           <div class="large-2 columns">
             @defining(Post.findRecentByAuthor(member.username, 0)) { post =>
             @if(post != null){
-            <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+            <a href="@routes.Posts.viewPost(post.id)"><img src="@post.getImageUrl()" class="thumbnail" alt=""></a>
             }
             }
           </div>
@@ -39,7 +39,7 @@
           <div class="large-2 columns">
             @defining(Post.findRecentByAuthor(member.username, 1)) { post =>
             @if(post != null){
-            <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+            <a href="@routes.Posts.viewPost(post.id)"><img src="@post.getImageUrl()" class="thumbnail" alt=""></a>
             }
             }
           </div>
@@ -47,7 +47,7 @@
           <div class="large-2 columns">
             @defining(Post.findRecentByAuthor(member.username, 2)) { post =>
             @if(post != null){
-            <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+            <a href="@routes.Posts.viewPost(post.id)"><img src="@post.getImageUrl()" class="thumbnail" alt=""></a>
             }
             }
           </div>
@@ -55,7 +55,7 @@
           <div class="large-2 columns">
             @defining(Post.findRecentByAuthor(member.username, 3)) { post =>
             @if(post != null){
-            <a href="@routes.Posts.viewPost(post.id)"><img src="@{routes.Assets.versioned(post.imageFile)}" class="thumbnail" alt=""></a>
+            <a href="@routes.Posts.viewPost(post.id)"><img src="@post.getImageUrl()" class="thumbnail" alt=""></a>
             }
             }
           </div>

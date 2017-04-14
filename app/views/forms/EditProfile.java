@@ -9,7 +9,7 @@ import play.data.validation.ValidationError;
 * Backing class for the edit profile form.
 *
 */
-public class EditProfileForm {
+public class EditProfile {
 
 	public String firstname = "";
 	public String lastname = "";
@@ -21,10 +21,10 @@ public class EditProfileForm {
 	public String bio = "";
 
 
-	public EditProfileForm() {
+	public EditProfile() {
 	}
 
-	public EditProfileForm(String firstname, String lastname, String email, String level,
+	public EditProfile(String firstname, String lastname, String email, String level,
 		String location, String skills, String bio) {
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -54,8 +54,13 @@ public class EditProfileForm {
 			errors.add(new ValidationError("lastname", "Enter your last name"));
 		}
 
+		String emailRegex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+		+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
 		if (email == null || email.length() == 0) {
 			errors.add(new ValidationError("email", "Enter your email"));
+		} else if (!email.matches(emailRegex)) {
+			errors.add(new ValidationError("email", "Please enter a valid email"));
 		}
 
 

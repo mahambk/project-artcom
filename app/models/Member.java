@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import javax.persistence.*;
 //import java.sql.Date;
 import views.forms.SignupForm;
-import views.forms.EditProfileForm;
+import views.forms.EditProfile;
 import libs.BCrypt;
 
 @Entity
@@ -110,9 +110,12 @@ public class Member extends Model {
 		// Create password hash
 		String hashedPassword = BCrypt.hashpw(signupForm.password, BCrypt.gensalt());
 
-		// TODO: ADD DATE
 		Member newMember = new Member(signupForm.firstname, signupForm.lastname, signupForm.email, signupForm.username,
 			hashedPassword, signupForm.birthday, signupForm.birthmonth, signupForm.birthyear, signupForm.level);
+		newMember.profilePic = "https://s3.eu-west-2.amazonaws.com/scrapbookartcom/profile-images/sample.jpg";
+		newMember.skills = "";
+		newMember.bio = "";
+		newMember.location = "";
 		newMember.save();
 		return newMember;
 	}
@@ -140,11 +143,11 @@ public class Member extends Model {
 	}
 
 	public void resetProfilePic() {
-		this.profilePic = "images/profile-pics/sample.jpg";
+		this.profilePic = "https://s3.eu-west-2.amazonaws.com/scrapbookartcom/profile-images/sample.jpg";
         this.save();
 	}
 
-	public void updateInfo(EditProfileForm profileForm) {
+	public void updateInfo(EditProfile profileForm, String newProfilePicUrl) {
 		this.firstname = profileForm.firstname;
 		this.lastname = profileForm.lastname;
 		this.email = profileForm.email;
@@ -152,6 +155,9 @@ public class Member extends Model {
 		this.location = profileForm.location;
 		this.skills = profileForm.skills;
 		this.bio = profileForm.bio;
+		if (newProfilePicUrl != null) {
+			this.profilePic = newProfilePicUrl;
+		}
 		this.save();
 	}
 

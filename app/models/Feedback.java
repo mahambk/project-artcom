@@ -4,7 +4,7 @@ import com.avaje.ebean.Model;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.persistence.*;
-//import views.forms
+import utils.S3FileUpload;
 
 @Entity
 public class Feedback extends Model {
@@ -53,6 +53,11 @@ public class Feedback extends Model {
 		return dateFormat.format(this.dateTimeSent);
 	}
 
+	public String getImageUrl() {
+		return S3FileUpload.getUrl("feedback-images", String.valueOf(this.id), this.imageFile);
+
+	}
+
 	public String toString() {
 		return String.format("[Feedback ID: '%d', Body: '%s', Author: '%s', Post ID: '%s', Date & Time: '%s']",
 		this.id, this.fdbkBody, this.author.username, this.post.id, this.dateTimeSent);
@@ -67,6 +72,11 @@ public class Feedback extends Model {
 	@PrePersist
 	public void dateSent() {
 		this.dateTimeSent = new Date();
+	}
+
+	@PreRemove
+	public void deleteImageFile() {
+		S3FileUpload.deleteFileFromS3("feedback-images", String.valueOf(this.id), this.imageFile);
 	}
 
 }
