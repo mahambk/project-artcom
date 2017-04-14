@@ -20,7 +20,9 @@ public class Application extends Controller {
      * Returns the login form page
      */
     public Result login() {
-        return ok(login.render(""));
+        LoginForm emptyForm = new LoginForm();
+        Form<LoginForm> loginForm = Form.form(LoginForm.class).fill(emptyForm);
+        return ok(login.render(loginForm, ""));
     }
 
 
@@ -42,12 +44,12 @@ public class Application extends Controller {
 
     	if (loginForm.hasErrors()) {
     		flash("error", "Username or password is incorrect.");
-    		return ok(login.render("Username or password is incorrect."));
+    		return ok(login.render(loginForm, "Username or password is incorrect."));
     	} else {
     		flash("success", "Form parsed with no errors.");
     		session().clear();
     		session("loggedIn", loginForm.get().username);
-    		return redirect(routes.Application.index());
+    		return redirect(routes.Profile.myProfile());
     	}
     }
 

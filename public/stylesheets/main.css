@@ -62,9 +62,7 @@ form {
 	max-width: initial;
 }
 
-.member-list-entry {
-    background-color: #e5e0dd;
-}
+
 
 .edit-btn {
 	font-size: 1.8rem;
@@ -80,6 +78,7 @@ form {
 	color: #c9150c;
 	font-weight: bold;
 	font-style: regular;
+    font-size: 0.9rem;
 }
 
 .profile {

@@ -1,12 +1,12 @@
-@(errorMessage: String)
+@(loginForm: Form[views.forms.LoginForm], errorMessage: String)
 @templates.main("Login to Scrapbook", "searchOff") {
 
 @helper.form(routes.Application.submitLogin()) {
 	<div class="row top-space">
 		<div class="small-8 small-centered large-5 large-centered columns">
 			<h4>Login to Scrapbook</h4>
-			<input type="text" name="username" placeholder="Username">
-			<input type="password" name="password" placeholder="Password">
+			<input type="text" name="username" placeholder="Username" value="@loginForm("username").value">
+			<input type="password" name="password" placeholder="Password" @if(loginForm("password").hasErrors) {class="is-invalid-input"}>
 			
 			<div class="column row">
 				<p class="error-text">@errorMessage</p>
