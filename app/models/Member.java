@@ -80,6 +80,11 @@ public class Member extends Model {
 		    .findPagedList(page, pageSize);
 	}
 
+	public static String getMemberProfilePic(String username) {
+		Member member = find.byId(username);
+		return member.profilePic;
+	}
+
 	public String toString() {
 		return String.format("[Username: '%s', Password: '%s', First name: '%s', Last name: '%s', Email: '%s',"
 			+ "Dob: '%s', Level: '%s']", this.username, this.password, this.firstname, this.lastname, 

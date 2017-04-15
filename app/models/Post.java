@@ -39,7 +39,8 @@ public class Post extends Model {
 
 	public Post(String title, String subtitle, String description,
 		String tags, String category, boolean feedbackEnabled) {
-		this.title = title;
+		String trimmedTitle = title.trim();
+		this.title = trimmedTitle;
 		this.subtitle = subtitle;
 		this.description = description;
 		this.tags = tags;
@@ -193,7 +194,8 @@ public class Post extends Model {
 	}
 
 	public void editPost(EditPostForm editedPost) {
-		this.title = editedPost.title;
+		String trimmedTitle = editedPost.title.trim();
+		this.title = trimmedTitle;
 		this.subtitle = editedPost.subtitle;
 		this.description = editedPost.description;
 		this.tags = editedPost.tags;

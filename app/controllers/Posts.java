@@ -20,7 +20,8 @@ public class Posts extends Controller {
     public Result viewPost(int postId) {
         Post post = Post.findById(postId);
         if (post != null) {
-            return ok(viewPost.render(post));
+            Member author = Member.findByUsername(post.author.username);
+            return ok(viewPost.render(post, author));
         }
         return badRequest(index.render());
     }
@@ -28,7 +29,8 @@ public class Posts extends Controller {
     public Result viewPostCommentArea(int postId) {
         Post post = Post.findById(postId);
         if (post != null) {
-            return ok(viewPost.render(post));
+            Member author = Member.findByUsername(post.author.username);
+            return ok(viewPost.render(post, author));
         }
         return badRequest(index.render());
     }
@@ -36,7 +38,8 @@ public class Posts extends Controller {
     public Result viewPostFeedbackArea(int postId) {
         Post post = Post.findById(postId);
         if (post != null) {
-            return ok(viewPost.render(post));
+            Member author = Member.findByUsername(post.author.username);
+            return ok(viewPost.render(post, author));
         }
         return badRequest(index.render());
         
@@ -73,7 +76,7 @@ public class Posts extends Controller {
                     post.imageFile = fileName;
                     post.save();
                     S3FileUpload.uploadFileToS3(imageFile, "post-images", String.valueOf(post.id), fileName);
-                    return ok(viewPost.render(post));
+                    return ok(viewPost.render(post, member));
                 }
             }  
         }
@@ -91,7 +94,7 @@ public class Posts extends Controller {
             return ok(editPost.render(form, postId));
         }
 
-        return badRequest(viewPost.render(post));
+        return redirect(routes.Posts.viewPost(post.id));
      }
 
     public Result submitChanges(int postId) {
@@ -103,7 +106,7 @@ public class Posts extends Controller {
             return ok(editPost.render(form, postId));
         } else {
             post.editPost(form.get());
-            return ok(viewPost.render(post));
+            return redirect(routes.Posts.viewPost(post.id));
         }
     }
 
@@ -123,7 +126,7 @@ public class Posts extends Controller {
             Post post = Post.findById(postId);
             if (cmntForm.hasErrors()) {
                 flash("error", "Illegal characters.");
-                return ok(viewPost.render(post));
+                return redirect(routes.Posts.viewPost(post.id));
             } else {
                 flash("success", "Form parsed with no errors.");
                 Comment cmnt = cmntForm.get();
@@ -165,7 +168,7 @@ public class Posts extends Controller {
             Post post = Post.findById(postId);
             if (fdbkForm.hasErrors() || post.feedbackEnabled == false) {
                 flash("error", "Illegal characters.");
-                return ok(viewPost.render(post));
+                return redirect(routes.Posts.viewPost(post.id));
             } else {
                 flash("success", "Form parsed with no errors.");
                 Feedback fdbk = fdbkForm.get();

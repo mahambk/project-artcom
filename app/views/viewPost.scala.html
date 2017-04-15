@@ -1,4 +1,4 @@
-@(post: Post)
+@(post: Post, author: Member)
 @templates.main("View Post", "searchOn"){
 	<div class="row top-space">
 		<div class="small-12 large-10 large-centered columns">
@@ -6,7 +6,7 @@
             <!--Post heading: author, date and type-->
 			<div class="row top-space">
 				<div class="small-4 large-2 columns text-right">
-					<img src="@{routes.Assets.versioned("images/profile-pics/sample.jpg")}" class="thumbnail post-user-pic" alt="">
+					<img src="@author.profilePic" class="thumbnail post-user-pic" alt="">
 				</div>
 				<div class="small-6 large-7 columns post-info">
 					<h6><a href="@routes.Profile.index(post.author.username)">@post.author.username</a></h6>
@@ -38,17 +38,6 @@
                     }
                 </div>
 
-                <!-- Side panel 
-                <div class="small-3 columns">
-                    @if(post.postType.equals("progress")){
-                    <h5>Progress Panel</h5>
-                    }
-
-                    @if(post.postType.equals("demo")){
-                    <h5>Artwork Details</h5>
-                    }
-                </div>-->
-
             </div>
             
             <!--Feedback-->
@@ -60,7 +49,7 @@
                     @for(f <- Feedback.findFor(post.id)){
                     <div class="row comment-box" id="@f.id">
                         <div class="small-2 columns">
-                            <img src="@{routes.Assets.versioned("images/profile-pics/sample.jpg")}" class="thumbnail" alt="">
+                            <img src="@Member.getMemberProfilePic(f.author.username)" class="thumbnail feedback-user-pic" alt="">
                         </div>
                         <div class="small-10 columns comment-body">
                             <h6>@f.author.username</h6>
@@ -131,7 +120,7 @@
                     @for(c <- Comment.findFor(post.id)){
                     <div class="row comment-box" id="@c.id">
                         <div class="small-2 columns">
-                            <img src="@{routes.Assets.versioned("images/profile-pics/sample.jpg")}" class="thumbnail" alt="">
+                            <img src="@Member.getMemberProfilePic(c.author.username)" class="thumbnail" alt="">
                         </div>
                         <div class="small-10 columns comment-body">
                             <h6>@c.author.username</h6>
