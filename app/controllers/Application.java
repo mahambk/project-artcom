@@ -88,7 +88,8 @@ public class Application extends Controller {
     		Member member = Member.createInstance(signupForm.get());
     		flash("success", "Form parsed with no errors.");
             session().clear();
-            session("loggedIn", signupForm.get().username);
+            String usernameLowercase = signupForm.get().username.toLowerCase();
+            session("loggedIn", usernameLowercase);
             return redirect(routes.Profile.myProfile());
     		/* For testing
             String confirmation = "Form parsed successfully. Member instance created: " + member.toString();

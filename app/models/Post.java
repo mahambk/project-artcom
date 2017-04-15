@@ -66,7 +66,11 @@ public class Post extends Model {
 	}
 
 	public static PagedList<Post> findPageList(int page, int pageSize, String category) {
+		if(category.equals("everything")) {
+			return find.where().findPagedList(page, pageSize);
+		} else {
 		return find.where().ieq("category", category).findPagedList(page, pageSize);
+		}
 	}
 
 	public static PagedList<Post> findPageByAuthor(int page, int pageSize, String username) {

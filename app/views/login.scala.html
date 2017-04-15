@@ -3,7 +3,7 @@
 
 @helper.form(routes.Application.submitLogin()) {
 	<div class="row top-space">
-		<div class="small-8 small-centered large-5 large-centered columns">
+		<div class="small-12 medium-8 medium-centered large-5 large-centered columns">
 			<h4>Login to Scrapbook</h4>
 			<input type="text" name="username" placeholder="Username" value="@loginForm("username").value">
 			<input type="password" name="password" placeholder="Password" @if(loginForm("password").hasErrors) {class="is-invalid-input"}>

@@ -110,8 +110,10 @@ public class Member extends Model {
 		// Create password hash
 		String hashedPassword = BCrypt.hashpw(signupForm.password, BCrypt.gensalt());
 
-		Member newMember = new Member(signupForm.firstname, signupForm.lastname, signupForm.email, signupForm.username,
-			hashedPassword, signupForm.birthday, signupForm.birthmonth, signupForm.birthyear, signupForm.level);
+		String usernameLowercase = signupForm.username.toLowerCase();
+		Member newMember = new Member(signupForm.firstname, signupForm.lastname, signupForm.email,
+			usernameLowercase, hashedPassword, signupForm.birthday, signupForm.birthmonth,
+			signupForm.birthyear, signupForm.level);
 		newMember.profilePic = "https://s3.eu-west-2.amazonaws.com/scrapbookartcom/profile-images/sample.jpg";
 		newMember.skills = "";
 		newMember.bio = "";

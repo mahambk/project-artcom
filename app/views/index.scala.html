@@ -4,25 +4,30 @@
 
   @if(!Application.isLoggedIn()) {
   <div class="row welcome-section">
-    <!--<div class="large-8 large-centered columns">
-      <img src="@{routes.Assets.versioned("images/website/motto-white.png")}" id="motto" alt="">
-       h3>Welcome to Scrapbook</h3>
-       <p>An online art community that embraces amateur artists and hobbiests around the globe. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, asperiores, voluptas, veniam commodi impedit tenetur dolores cumque facere explicabo esse quaerat veritatis laboriosam eius modi amet maxime non officia nemo!</p>
-    </div>-->
     <div class="row top-space">
-      <div class="small-10 small-centered medium-6 medium-offset-3 large-6 large-offset-3 columns text-center">
-        <img src="@{routes.Assets.versioned("images/website/motto-white.png")}" alt="">
+      <div class="small-7 small-offset-1 medium-6 medium-offset-2 large-6 large-offset-2 columns text-center">
+        <img src="@{routes.Assets.versioned("images/website/motto-white.png")}" id="motto" alt="">
         
       </div>
-      <div class="small-2 medium-3 large-3 columns text-right">
+      <div class="small-3 medium-2 medium-offset-1 large-2 large-offset-1 columns">
         <button class="button btn-white"><a href="@routes.Application.signup">Join now</a></button>
       </div>
+      <div class="small-1 medium-1 large-1 columns"></div>
     </div>
   </div>
   }
   <div class="row top-space">
-    <div class="small-11 small-centered columns">
-      <h4>Featured Posts</h4>
+    <div class="small-12 large-11 large-centered columns">
+      <div class="row">
+        <div class="small-6 columns">
+          <h4>Latest Posts</h4>
+        </div>
+        <div class="small-6 columns text-right">
+        @if(Application.isLoggedIn()) {
+        <a href="@routes.Posts.newPost()"><button class="primary button"><i class="fi-plus"></i>&nbsp;&nbsp;New post</button></a>
+        }
+        </div>
+      </div>
       <div class="row small-up-2 medium-up-3 large-up-4 top-space">
 
         <!--Dynamic Thumbnail-->
