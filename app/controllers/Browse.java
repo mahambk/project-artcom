@@ -13,7 +13,7 @@ public class Browse extends Controller {
 
     /**
      */
-    public Result list(int page, String category){
+    public Result browseByCategory(int page, String category){
         return ok(browsePage.render(Post.findPageList(page, 24, category), category));
     }
 

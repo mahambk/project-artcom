@@ -1,0 +1,8 @@
+@(currentCateg: String)
+<li @if(currentCateg.equals("everything")){class="active"}><a href="@routes.Browse.browseByCategory(0, "everything")">Everything</a></li>
+<li @if(currentCateg.equals("drawing")){class="active"}><a href="@routes.Browse.browseByCategory(0, "drawing")">Drawing</a></li>
+<li @if(currentCateg.equals("sketches")){class="active"}><a href="@routes.Browse.browseByCategory(0, "sketches")">Sketches</a></li>
+<li @if(currentCateg.equals("painting")){class="active"}><a href="@routes.Browse.browseByCategory(0, "painting")">Painting</a></li>
+<li @if(currentCateg.equals("calligraphy")){class="active"}><a href="@routes.Browse.browseByCategory(0, "calligraphy")">Calligraphy</a></li>
+<li @if(currentCateg.equals("graphic design")){class="active"}><a href="@routes.Browse.browseByCategory(0, "graphic design")">Graphic Design</a></li>
+<li @if(currentCateg.equals("crafts")){class="active"}><a href="@routes.Browse.browseByCategory(0, "crafts")">Crafts</a></li>

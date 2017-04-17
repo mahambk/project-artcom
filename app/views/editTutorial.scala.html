@@ -1,0 +1,49 @@
+@(tutForm: Form[views.forms.EditTutorialForm], tutId: Integer)
+@templates.main("Edit tutorial", "searchOff") {
+@helper.form(routes.Tutorials.submitChanges(tutId)) {
+
+	<div class="row top-space new-post-form">
+		<div class="small-12 small-centered large-9 large-centered columns">
+			<h4>Edit tutorial</h4>
+			<input type="text" @if(tutForm("title").hasErrors) {class="is-invalid-input" aria-describedby="titleHelpText"} name="title" placeholder="Tutorial Title" value="@tutForm("title").value">
+			@if(tutForm("title").hasErrors) {
+			<p class="help-text" id="titleHelpText"><span class="error-text">@{tutForm("title").error.map {error => error.message}}</span></p>
+			}
+
+			<textarea name="intro" rows="6" placeholder="Introduction">@tutForm("intro").value</textarea>
+
+			<textarea name="body" rows="10" placeholder="Body">@tutForm("body").value</textarea>
+
+			<br>
+            
+			<input type="text" name="tags" id="tags" placeholder="Tags" value="@tutForm("tags").value">
+
+			<div class="row columns top-space">
+				<legend>Category</legend>
+				<select name="category">
+					<option value="@tutForm("category").value" selected>Current category: @tutForm("category").value</option>
+					<option value="drawing">Drawing</option>
+					<option value="sketching">Sketching</option>
+					<option value="painting">Painting</option>
+					<option value="calligraphy">Calligraphy</option>
+					<option value="graphic design">Graphic design</option>
+					<option value="crafts">Crafts</option>
+				</select>
+			</div>
+            
+			<div class="row top-space">
+				<div class="small-3 small-offset-9 columns">
+					<button type="submit" value="Submit" class="button expanded">Submit changes</button>
+				</div>
+			</div>
+			}
+			@helper.form(routes.Tutorials.deleteTutorial(tutId)) {
+			<div class="row">
+				<div class="small-4 columns">
+					<button type="submit" value="Submit" class="button alert">Delete tutorial</button>
+				</div>
+			</div>
+			}
+		</div>
+	</div>
+}

@@ -17,7 +17,6 @@ public class Post extends Model {
 	@Id
 	public int id;
 
-	public String postType;
 	public String title;
 	public String subtitle;
 
@@ -44,13 +43,11 @@ public class Post extends Model {
 		this.subtitle = subtitle;
 		this.description = description;
 		this.tags = tags;
-		//this.postType = postType;
 		this.category = category;
 		this.feedbackEnabled = feedbackEnabled;
 	}
 
 	public Post() {
-		this.postType = "none";
 		this.title = "";
 		this.subtitle = "";
 		this.description = "";
@@ -62,15 +59,11 @@ public class Post extends Model {
 		return find.byId(id);
 	}
 
-	public static List<Post> findByCategory(String category) {
-		return find.where().ieq("category", category).findList();
-	}
-
 	public static PagedList<Post> findPageList(int page, int pageSize, String category) {
 		if(category.equals("everything")) {
-			return find.where().findPagedList(page, pageSize);
+			return find.where().orderBy("dateTimePosted desc").findPagedList(page, pageSize);
 		} else {
-		return find.where().ieq("category", category).findPagedList(page, pageSize);
+		return find.where().ieq("category", category).orderBy("dateTimePosted desc").findPagedList(page, pageSize);
 		}
 	}
 
@@ -87,10 +80,6 @@ public class Post extends Model {
 			return null;
 		}
 		return post;
-	}
-
-	public static List<Post> findAll() {
-		return find.where().findList();
 	}
 
 	public static List<Post> findRecent(int maxRows) {
@@ -144,7 +133,7 @@ public class Post extends Model {
 	public String toString() {
 		return String.format("[Post ID: '%d', Title: '%s', Subtitle: '%s', Description: '%s', Tags: '%s',"
 			+ "Post type: '%s', Category: '%s', Feedback enabled: '%s']", this.id, this.title, this.subtitle,
-			this.description, this.tags, this.postType, this.category, this.feedbackEnabled);
+			this.description, this.tags, this.category, this.feedbackEnabled);
 	}
 
 	@Override
@@ -185,10 +174,6 @@ public class Post extends Model {
 		if (title == null || title.length() == 0) {
 			errors.add(new ValidationError("title", "Please enter a post title"));
 		}
-
-		/*if (imageFile == null) {
-			errors.add(new ValidationError("imageFile", "Please select an image file"));
-		}*/
 
 		return errors;
 	}

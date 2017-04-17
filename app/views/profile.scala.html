@@ -107,6 +107,62 @@
         </div>
         }
         }
+        @if(Tutorial.memberTutorialCount(member) > 0){
+         <hr>
+         <div class="row top-space">
+           <div class="small-7 large-7 columns">
+             <h5>Tutorials by @member.username</h5>
+           </div>
+           <div class="small-5 large-4 large-offset-1 columns">
+             @if(Application.memberLoggedIn(member)) {
+             <a href="@routes.Tutorials.newTutorial()"><button class="primary button expanded"><i class="fi-plus"></i>&nbsp;&nbsp;Create tutorial</button></a>
+             }
+           </div>
+         </div>
+         <br>
+         @for(t <- Tutorial.findRecentByAuthor(member.username, 6)){
+          <div class="row small-collapse tutorial-thumb-row">
+            <div class="small-4 columns text-right">
+                <a href="@routes.Tutorials.viewTutorial(t.id)"><img id="tutorial-thumb-image" src="@t.getImage1Url()" alt=""></a>
+            </div>
+            <div class="small-8 columns">
+              <div class="tutorial-thumb-info">
+                <h6><a href="@routes.Tutorials.viewTutorial(t.id)"><p>@t.title</p></a></h6>
+                <p>
+                @if(!t.tags.isEmpty()) {
+                @for(tag <- t.tags.split(",")) {
+                <span class="tags">#@tag &nbsp;</span>
+                }
+                }
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          }
+          @if(Tutorial.memberTutorialCount(member) > 6){
+          <div class="row">
+            <div class="small-5 small-offset-7 large-4 large-offset-8 columns">
+            <br>
+            <a href="@routes.Tutorials.viewMemberTutorials(member.username)"><button class="secondary button expanded">Show all tutorials</button></a>
+            </div>
+          </div>
+          }
+       } else {
+       @if(Application.memberLoggedIn(member)) {
+       <div class="row top-space">
+         <div class="small-8 large-7 columns">
+            <p>You haven't created any tutorials yet.</p>
+         </div>
+         <div class="small-4 large-4 large-offset-1 columns">
+           @if(Application.memberLoggedIn(member)) {
+           <a href="@routes.Tutorials.newTutorial()"><button class="primary button expanded"><i class="fi-plus"></i>&nbsp;&nbsp;Create tutorial</button></a>
+           }
+         </div>
+       </div>
+
+      }
+      }
      </div>
     </div>
 

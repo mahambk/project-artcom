@@ -1,0 +1,62 @@
+@(tut: Tutorial, author: Member)
+@templates.main("View Tutorial", "searchOn"){
+	<div class="row top-space">
+		<div class="small-12 columns">
+            
+            <!--Tutorial heading: author, date and type-->
+			<div class="row top-space">
+				<div class="small-4 medium-2 large-2 columns text-right">
+					<img src="@author.profilePic" class="thumbnail post-user-pic" alt="">
+				</div>
+				<div class="small-6 medium-7 large-7 columns post-info">
+					<h6><a href="@routes.Profile.index(author.username)">@author.username</a></h6>
+                    <p class="post-date">Posted @tut.getDatePosted()</p>
+                    <p><span class="label level">@tut.category tutorial</span></p>
+
+				</div>
+                <div class="small-2 medium-3 large-3 columns text-right">
+                    @if(Application.memberLoggedIn(tut.author)) {
+                    <a href="@routes.Tutorials.editTutorial(tut.id)"><button class="secondary button edit-btn">✎</button></a>
+                    }
+                </div>
+			</div>
+            
+            
+            <div class="row top-space">
+
+                <!--Tutorial body: intro, images, body and tags-->
+                <div class="small-12 large-8 columns">
+                    <h4>@tut.title</h4>
+                    <p>@tut.intro</p>
+                    <img src="@tut.getImage1Url()" class="post-image" alt="">
+                    @if(tut.imageFile2 != null && !tut.imageFile2.equals("")){
+                    <img src="@tut.getImage2Url()" class="post-image thumbnail" alt="">
+                    }
+                    <p>@Html(tut.body)</p>
+                    <br>
+                    @if(!tut.tags.isEmpty()){
+                    <p>Tagged: 
+                    @for(t <- tut.tags.split(",")) {
+                    <a class="tags" href="@routes.Browse.getSearchResultPage(0, t)">#@t </a>
+                    }
+                    </p>
+                    }
+                </div>
+
+                <!-- Video Sidebar -->
+                @if(!tut.videoFile.equals("")){
+                <div class="small-12 large-4 columns tutorial-side-bar">
+                    <h5>Tutorial Video</h5>
+                    <video width="320" height="240" controls>
+                      <source src="@tut.getVideoUrl()" type="video/mp4">
+                    Your browser does not support the video tag.
+                    </video>
+                </div>
+                }
+
+            </div>
+
+            
+		</div>
+	</div>
+}

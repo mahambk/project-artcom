@@ -13,7 +13,7 @@ POST	/login						controllers.Application.submitLogin()
 GET 	/logout						controllers.Application.logout()
 
 # Browse and search posts
-GET 	/browse/:category/:page		controllers.Browse.list(page: Integer, category: String)
+GET 	/browse/:category/:page		controllers.Browse.browseByCategory(page: Integer, category: String)
 POST 	/searchposts 				controllers.Browse.searchPosts()
 GET 	/searchposts/:query/:page 	controllers.Browse.getSearchResultPage(page: Integer, query: String)
 GET 	/discover					controllers.Browse.discover()
@@ -47,6 +47,16 @@ POST 	/post/sendComment			controllers.Posts.sendComment(postId: Integer)
 POST 	/post/deleteComment 		controllers.Posts.deleteComment(cmntId: Integer, postId: Integer)
 POST 	/post/sendFeedback			controllers.Posts.sendFeedback(postId: Integer)
 POST 	/post/deleteFeedback 		controllers.Posts.deleteFeedback(fdbkId: Integer, postId: Integer)
+
+# Tutorial
+GET 	/tutorial/new					controllers.Tutorials.newTutorial()
+POST 	/tutorial/new/upload			controllers.Tutorials.uploadTutorial()
+GET 	/tutorial/:tutId/edit 			controllers.Tutorials.editTutorial(tutId: Integer)
+POST 	/tutorial/edit/submit 			controllers.Tutorials.submitChanges(tutId: Integer)
+POST 	/tutorial/edit 					controllers.Tutorials.deleteTutorial(tutId: Integer)
+GET 	/tutorial/:tutId				controllers.Tutorials.viewTutorial(tutId: Integer)
+GET 	/tutorials/browse/:category/:page 	controllers.Tutorials.browseTutorials(page: Integer, category: String)
+GET 	/tutorials/:username 			controllers.Tutorials.viewMemberTutorials(username: String)
 
 
 # Map static resources from the /public folder to the /assets URL path

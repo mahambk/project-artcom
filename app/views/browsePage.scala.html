@@ -5,20 +5,24 @@
     <div class="row top-space">
       <div class="small-12 large-8 columns">
         <h4>Browse artworks</h4>
+      </div>
+      <div class="small-12 large-4 columns">
+          <ul class="menu">
+          @helper.form(routes.Browse.searchPosts()) {
+          <li><input type="text" name="query" placeholder="Search"></li>
+          }
+          </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-12 large-9 columns">
         <ul class="menu hide-for-small-only">
-          @browseCategories(currentCateg)
+          @postCategories(currentCateg)
         </ul>
         <ul class="menu vertical show-for-small-only">
-          @browseCategories(currentCateg)
           <br>
+          @postCategories(currentCateg)
         </ul>
-      </div>
-      <div class="small1-12 large-4 columns">
-      <ul class="menu">
-        @helper.form(routes.Browse.searchPosts()) {
-        <li><input type="text" name="query" placeholder="Search"></li>
-        }
-      </ul>
       </div>
     </div>
     
@@ -29,9 +33,15 @@
         </div>
         <div class="row small-up-2 medium-up-3 large-up-4 top-space">
 
+          @if(currentPage.getTotalRowCount() == 0) {
+          <p>There are no posts under this category :(</p>
+          <br><br>
+          } else {
+
           <!--Dynamic Thumbnail-->
           @for(p <- currentPage.getList){
           @postThumbnail(p)
+          }
           }
         
         </div>
@@ -43,13 +53,13 @@
       <div class="small-12 columns">
         <ul class="pagination text-center" role="navigation" aria-label="Pagination">
           @if(currentPage.hasPrev){
-          <li class="pagination-previous"><a href="@routes.Browse.list(currentPage.getPageIndex - 1, currentCateg)" aria-label="Previous page">Previous</a></li>
+          <li class="pagination-previous"><a href="@routes.Browse.browseByCategory(currentPage.getPageIndex - 1, currentCateg)" aria-label="Previous page">Previous</a></li>
           } else {
           <li class="pagination-previous disabled">Previous</li>
           }
           <li class="current"><span class="show-for-sr">You're on page</span>Displaying @currentPage.getDisplayXtoYofZ(" - "," of ") posts</li>
           @if(currentPage.hasNext){
-          <li class="pagination-next"><a href="@routes.Browse.list(currentPage.getPageIndex + 1, currentCateg)" aria-label="Next page">Next</a></li>
+          <li class="pagination-next"><a href="@routes.Browse.browseByCategory(currentPage.getPageIndex + 1, currentCateg)" aria-label="Next page">Next</a></li>
           } else {
           <li class="pagination-next disabled">Next</li>
           } 
