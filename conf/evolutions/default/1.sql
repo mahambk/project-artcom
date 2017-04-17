@@ -41,7 +41,6 @@ create table member (
 
 create table post (
   id                            serial not null,
-  post_type                     varchar(255),
   title                         varchar(255),
   subtitle                      varchar(255),
   author_username               varchar(255),
@@ -53,6 +52,22 @@ create table post (
   date_time_last_edited         timestamp,
   feedback_enabled              boolean,
   constraint pk_post primary key (id)
+);
+
+create table tutorial (
+  id                            serial not null,
+  title                         varchar(255),
+  author_username               varchar(255),
+  intro                         varchar(255),
+  body                          varchar(255),
+  tags                          varchar(255),
+  category                      varchar(255),
+  image_file1                   varchar(255),
+  image_file2                   varchar(255),
+  video_file                    varchar(255),
+  date_time_posted              timestamp,
+  date_time_last_edited         timestamp,
+  constraint pk_tutorial primary key (id)
 );
 
 alter table comment add constraint fk_comment_author_username foreign key (author_username) references member (username) on delete restrict on update restrict;
@@ -69,6 +84,9 @@ create index ix_feedback_post_id on feedback (post_id);
 
 alter table post add constraint fk_post_author_username foreign key (author_username) references member (username) on delete restrict on update restrict;
 create index ix_post_author_username on post (author_username);
+
+alter table tutorial add constraint fk_tutorial_author_username foreign key (author_username) references member (username) on delete restrict on update restrict;
+create index ix_tutorial_author_username on tutorial (author_username);
 
 
 # --- !Downs
@@ -88,6 +106,9 @@ drop index if exists ix_feedback_post_id;
 alter table if exists post drop constraint if exists fk_post_author_username;
 drop index if exists ix_post_author_username;
 
+alter table if exists tutorial drop constraint if exists fk_tutorial_author_username;
+drop index if exists ix_tutorial_author_username;
+
 drop table if exists comment cascade;
 
 drop table if exists feedback cascade;
@@ -95,4 +116,6 @@ drop table if exists feedback cascade;
 drop table if exists member cascade;
 
 drop table if exists post cascade;
+
+drop table if exists tutorial cascade;
 

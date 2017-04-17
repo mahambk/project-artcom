@@ -1,0 +1,50 @@
+@(member : Member)
+@import views.html.templates._
+
+@templates.main("Tutorials by @member.username", "searchOn") {
+    <div class="row top-space">
+      <div class="large-8 columns">
+        <h4>All Tutorials by @member.username</h4>        
+      </div>
+      <div class="large-4 columns">
+
+      </div>
+    </div>
+    
+    <!-- Post Thumbnails -->
+    <div class="row">
+      <div class="large-11 large centered columns">
+        <div class="row top-space">
+        </div>
+        <div class="row small-up-2 medium-up-3 large-up-4 top-space">
+
+          <!--Dynamic Thumbnail-->
+          @for(t <- Tutorial.findByAuthor(member.username)){
+          <div class="row small-collapse tutorial-thumb-row">
+            <div class="small-4 columns">
+              <div class="tutorial-thumb-image">
+                <a href="@routes.Tutorials.viewTutorial(t.id)"><img src="@t.getImage1Url()" class="thumbnail" alt=""></a>
+              </div>
+            </div>
+            <div class="small-8 columns">
+              <div class="tutorial-thumb-info">
+                <a href="@routes.Tutorials.viewTutorial(t.id)"><p>@t.title</p></a>
+                <p></p>
+                <p>
+                @if(!t.tags.isEmpty()) {
+                @for(tag <- t.tags.split(",")) {
+                #@tag &nbsp;
+                }
+                }
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          }
+        
+        </div>
+      </div>
+    </div>
+
+}

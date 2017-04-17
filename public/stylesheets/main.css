@@ -133,6 +133,12 @@ form {
 	color: grey;
 }
 
+.grey-italic {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: grey;
+}
+
 .post-user-pic {
 	width: 75px;
 }
@@ -204,7 +210,33 @@ form {
 	font-style: bold;
 	margin: 0 0.25rem 2rem 0.25rem;
 	padding: 0 0.75rem 0.25rem 0.75rem;
+}
+
+.tutorial-thumb-row {
+    font-size: 0.9rem;
+    background-color: #e6e6e6;
+    margin-bottom: 2rem;
+}
+
+#tutorial-thumb-image {
+    height: 10em;
+    padding-right: 0.3rem;
+}
+
+.tutorial-thumb-info {
+    background-color: #e6e6e6;
 	font-style: bold;
+	margin-bottom: 2rem;
+	padding: 1rem;
+    padding-bottom: 1rem;
+}
+
+.tutorial-side-bar {
+    background-color: #e6e6e6;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 5em;
 }
 
 .post-thumb-info > a, .post-thumb-info > p, .post-thumb-info > b {
@@ -224,6 +256,9 @@ div.center-cropped img {
   transform: translateX(-50%);
 }
 
+img {
+  image-orientation: from-image;
+}
 
 .footer > .row {
 	width: 100%;

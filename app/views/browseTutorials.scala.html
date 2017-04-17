@@ -1,0 +1,82 @@
+@(currentPage: com.avaje.ebean.PagedList[Tutorial], currentCateg: String)
+@import views.html.templates._
+
+@templates.main("Scrapbook - Browse Tutorials", "searchOn") {
+    <div class="row top-space">
+      <div class="small-8 large-9 columns">
+        <h4>Tutorials</h4>
+      </div>
+      <div class="small-4 large-3 columns">
+          @if(Application.isLoggedIn()) {
+          <a href="@routes.Tutorials.newTutorial()"><button class="primary button expanded"><i class="fi-plus"></i>&nbsp;&nbsp;Create tutorial</button></a>
+          }
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-12 large-9 columns">
+        <ul class="menu hide-for-small-only">
+          @tutorialCategories(currentCateg)
+        </ul>
+        <ul class="menu vertical show-for-small-only">
+          @tutorialCategories(currentCateg)
+          <br>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Tutorial Thumbnails -->
+    <div class="row">
+      <div class="small-12 large-10 large-centered columns">
+        <div class="row top-space">
+        </div>
+
+          @if(currentPage.getTotalRowCount() == 0) {
+          <p>There are no tutorials under this category :(</p>
+          <br><br>
+          } else {
+          <!--Dynamic Thumbnail-->
+          @for(t <- currentPage.getList){
+          <div class="row small-collapse tutorial-thumb-row">
+            <div class="small-4 columns text-right">
+                <a href="@routes.Tutorials.viewTutorial(t.id)"><img id="tutorial-thumb-image" src="@t.getImage1Url()" alt=""></a>
+            </div>
+            <div class="small-8 columns">
+              <div class="tutorial-thumb-info">
+                <h6><a href="@routes.Tutorials.viewTutorial(t.id)"><p>@t.title</p></a></h6>
+                <b>Tutorial by <a href="@routes.Profile.index(t.author.username)">@t.author.username</a></b>
+                <p>
+                @if(!t.tags.isEmpty()) {
+                @for(tag <- t.tags.split(",")) {
+                <span class="tags">#@tag &nbsp;</span>
+                }
+                }
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          }
+          }
+          
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="row">
+      <div class="small-12 columns">
+        <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+          @if(currentPage.hasPrev){
+          <li class="pagination-previous"><a href="@routes.Tutorials.browseTutorials(currentPage.getPageIndex - 1, currentCateg)" aria-label="Previous page">Previous</a></li>
+          } else {
+          <li class="pagination-previous disabled">Previous</li>
+          }
+          <li class="current"><span class="show-for-sr">You're on page</span>Displaying @currentPage.getDisplayXtoYofZ(" - "," of ") tutorials</li>
+          @if(currentPage.hasNext){
+          <li class="pagination-next"><a href="@routes.Tutorials.browseTutorials(currentPage.getPageIndex + 1, currentCateg)" aria-label="Next page">Next</a></li>
+          } else {
+          <li class="pagination-next disabled">Next</li>
+          } 
+        </ul>
+      </div>
+    </div>
+}

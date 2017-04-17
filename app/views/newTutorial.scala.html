@@ -1,0 +1,78 @@
+@(message: String, tutForm: Form[models.Tutorial])
+@templates.main("New tutorial", "searchOff") {
+@helper.form(routes.Tutorials.uploadTutorial(), 'enctype -> "multipart/form-data") {
+
+	<div class="row top-space new-post-form">
+		<div class="small-12 small-centered large-9 large-centered columns">
+			<h4>New tutorial</h4>
+			<input type="text" @if(tutForm("title").hasErrors) {class="is-invalid-input" aria-describedby="titleHelpText"} name="title" placeholder="Tutorial Title" value="@tutForm("title").value">
+			@if(tutForm("title").hasErrors) {
+			<p class="help-text" id="titleHelpText"><span class="error-text">@{tutForm("title").error.map {error => error.message}}</span></p>
+			}
+
+			<textarea name="intro" rows="6" placeholder="Introduction">@tutForm("intro").value</textarea>
+
+			<textarea name="body" rows="12" placeholder="Body (You can use HTML tags for styling – use <br> for a newline)" @if(tutForm("body").hasErrors) {aria-describedby="bodyHelpText"}>@tutForm("body").value</textarea>
+			@if(tutForm("body").hasErrors) {
+			<p class="help-text" id="bodyHelpText"><span class="error-text">@{tutForm("body").error.map {error => error.message}}</span></p>
+			}
+			<div contenteditable="true"></div>
+
+			<div class="row">
+				<div class="small-3 columns">
+					<input type="file" id="imageUpload1" onchange="displayImage(this);" class="show-for-sr" name="image1" accept="image/*">
+					<br><label for="imageUpload1" class="button expanded">Choose image</label><br>
+				</div>
+				<div class="small-9 columns">
+					<img src="" id="target-image" alt="">
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-3 columns">
+					<input type="file" id="imageUpload2" onchange="displayImage2(this);" class="show-for-sr" name="image2" accept="image/*">
+					<br><label for="imageUpload2" class="button secondary expanded">Choose a second image</label><br>
+				</div>
+				<div class="small-9 columns">
+					<img src="" id="target-image2" alt="">
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="small-3 columns">
+					<input type="file" name="video" id="videoUpload" onchange="displayVideoFileName(this);" class="show-for-sr" accept="video/mp4">
+					<label for="videoUpload" class="button secondary expanded">Choose video (mp4)</label><br>
+				</div>
+				<div class="small-3 columns">
+					<p id="videoFileName"></p>
+				</div>
+				<div class="small-6 columns"></div>
+			</div>
+			<p class="grey-italic">You must at least choose one image. The second image and video are optional components.</i></p>
+
+			<br>
+            
+			<input type="text" name="tags" id="tags" placeholder="Tags" value="@tutForm("tags").value">
+
+			<div class="row columns top-space">
+				<legend>Category</legend>
+				<select name="category">
+					<option value="drawing">Drawing</option>
+					<option value="sketches">Sketches</option>
+					<option value="painting">Painting</option>
+					<option value="calligraphy">Calligraphy</option>
+					<option value="graphic design">Graphic design</option>
+					<option value="crafts">Crafts</option>
+				</select>
+			</div>
+            
+			<p class="error-text">@message</p>
+
+			<div class="row">
+				<div class="small-3 small-offset-9 columns">
+					<button type="submit" value="Submit" class="button expanded">Create tutorial</button>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+}

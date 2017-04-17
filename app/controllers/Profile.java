@@ -48,6 +48,7 @@ public class Profile extends Controller {
         return badRequest(index.render());
     }
 
+
     public Result viewPostPage(String username, int page) {
         if (username != null && !username.isEmpty()) {
             Member member = Member.findByUsername(username);
